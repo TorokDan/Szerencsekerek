@@ -11,23 +11,7 @@ namespace Szerencsekerek
         static void Main(string[] args)
         {
             Random rnd = new Random();
-            int valasztott = 0;
-            while (valasztott != 1)
-            {
-                Console.Clear();
-                Console.WriteLine("Kérlek válassz az alábbi menüpontok közül: ");
-                Console.WriteLine("1. Játék kezdése");
-                Console.WriteLine("2. Kilépés");
-                try
-                {
-                    valasztott = int.Parse(Console.ReadLine());
-                }
-                catch(System.FormatException e) 
-                {
-                }//Ha a megadott érték nem szám, akkor azt itt kezelem
-                if (valasztott == 2) Kilepes();
-                if (valasztott > 2 || valasztott < 1) HibasValasztas();
-                }
+            Menu();
             Jatek jatek = new Jatek(rnd);
             while (jatek.JatekosokSzama > 3 || jatek.JatekosokSzama < 0)
             {
@@ -42,6 +26,27 @@ namespace Szerencsekerek
                 Kor(jatek);
             }
             ;
+        }
+
+        static void Menu()
+        {
+            int valasztott = 0;
+            while (valasztott != 1)
+            {
+                Console.Clear();
+                Console.WriteLine("Kérlek válassz az alábbi menüpontok közül: ");
+                Console.WriteLine("1. Játék kezdése");
+                Console.WriteLine("2. Kilépés");
+                try
+                {
+                    valasztott = int.Parse(Console.ReadLine());
+                }
+                catch (System.FormatException e)
+                {
+                }//Ha a megadott érték nem szám, akkor azt itt kezelem
+                if (valasztott == 2) Kilepes();
+                if (valasztott > 2 || valasztott < 1) HibasValasztas();
+            }
         }
         static void Kilepes()
         {
@@ -60,7 +65,7 @@ namespace Szerencsekerek
         {
             Console.WriteLine("Kérlek tippelj egy mássalhangzót");
             char tipp = ' ';
-            try { tipp = char.Parse(Console.ReadLine()); }
+            try { tipp = char.ToLower(char.Parse(Console.ReadLine())); }
             catch (System.FormatException e) { }
             if (!jatek.MassalhangzoE(tipp))
             {

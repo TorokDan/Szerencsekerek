@@ -40,7 +40,7 @@ namespace Szerencsekerek
             int szamlalo = 0;
             while (!sr.EndOfStream && szamlalo < sorokSzama)
             {
-                mondasok[szamlalo] = sr.ReadLine();
+                mondasok[szamlalo] = sr.ReadLine().ToLower();
                 szamlalo++;
             }
             sr.Close();
@@ -67,11 +67,12 @@ namespace Szerencsekerek
         }
         private void TitkosMondas(char karakter)
         {
-            titkosMondas = new char[mondas.Length];
+            // Itt valami nem jó.... valamiért nem jegyzi meg a régi tippeket maga a tömb....
             int index = 0;
             for (int i = 0; i < mondas.Length; i++)
             {
                 if (mondas[i] == karakter) titkosMondas[index++] = karakter;
+                else if (tippek.Contains(mondas[i])) titkosMondas[index] = mondas[index++];
                 else if (mondas[i] != ' ') titkosMondas[index++] = '_';
                 else if (mondas[i] == ' ') titkosMondas[index++] = ' ';
             }
@@ -130,19 +131,13 @@ namespace Szerencsekerek
         /// </returns>
         public int Tipp(char karakter, Random rnd) 
         {
-
-            // Valahol itt van egy hiba, de nem tudom pontosan, hogy mi...
-            // Valahol itt van egy hiba, de nem tudom pontosan, hogy mi...
-            // Valahol itt van egy hiba, de nem tudom pontosan, hogy mi...
-            // Valahol itt van egy hiba, de nem tudom pontosan, hogy mi...
-            // Valahol itt van egy hiba, de nem tudom pontosan, hogy mi...
             if (!"mnjlrbdgzvptkcsfh".Contains(karakter)) return 2;
             else if (!tippek.Contains(karakter))
             {
                 tippek += karakter;
                 TitkosMondas(karakter);
                 this.jatekosok[jatekosKore].PontAdas(rnd.Next(1000, 20001));
-                //jatekosKore = jatekosKore == 2 ? 0 : + 1; 
+                jatekosKore = jatekosKore == 2 ? 0 : + 1;
                 return 0;
             }
             else
@@ -155,7 +150,7 @@ namespace Szerencsekerek
             string valasz = "";
             for (int i = 0; i < titkosMondas.Length; i++)
             {
-                if (titkosMondas[i] != '_' && titkosMondas[i] != ' ') valasz += titkosMondas[i];
+                if (titkosMondas[i] != '_' && titkosMondas[i] != ' ') valasz = $"{valasz}{titkosMondas[i]} ";
                 if (titkosMondas[i] == '_') valasz += "_ ";
                 else if (titkosMondas[i] == ' ') valasz += "  ";
             }
