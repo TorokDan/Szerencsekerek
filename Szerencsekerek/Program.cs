@@ -63,11 +63,20 @@ namespace Szerencsekerek
         }
         static char MassalhangzoBeker(Jatek jatek) 
         {
-            Console.WriteLine("Kérlek tippelj egy mássalhangzót");
-            char tipp = ' ';
-            try { tipp = char.ToLower(char.Parse(Console.ReadLine())); }
-            catch (System.FormatException e) { }
-            if (!jatek.MassalhangzoE(tipp))
+            Console.WriteLine($"\n{jatek.Jatekosok[jatek.JatekosKore].Nev} tippeljen egy mássalhangzót, vagy kérdezzen rá!");
+            string tipp = Console.ReadLine().ToLower();
+            char tippKar = ' ';
+            if (tipp.Length == 1)
+            {
+                tippKar = char.Parse(tipp);
+            }
+            else if (tipp.Length > 1)
+            {
+                jatek.Rakerdez(tipp);
+            }
+            //try { tipp = char.ToLower(char.Parse(Console.ReadLine())); }
+            //catch (System.FormatException e) { }
+            if (!jatek.MassalhangzoE(tippKar))
             {
                 Console.WriteLine("Ez nem egy mássalhangzó.");
                 System.Threading.Thread.Sleep(1500);
@@ -77,16 +86,21 @@ namespace Szerencsekerek
         }
         static void Kor(Jatek jatek)
         {
+            Console.Clear();
             jatek.Eredmeyek();
-            int valasz = 3;
+            Console.WriteLine(jatek.TitkosMondasString());
             Random rnd = new Random();
-            while (valasz > 2)
+            int valasz = 2;
+            do
             {
                 char tipp = MassalhangzoBeker(jatek);
                 valasz = jatek.Tipp(tipp, rnd);
-            }
-            Console.WriteLine(jatek.Mondas);
-            Console.WriteLine(jatek.TitkosMondasString());
+                Console.WriteLine(jatek.JatekosKore);
+                if (valasz == 2) Console.WriteLine("Kérlek mássalhangzót adj meg!");
+                else if (valasz == 1) Console.WriteLine("Sajnos rossz választás!");
+                else if (valasz == 0) Console.WriteLine("Gratulálok!");
+                System.Threading.Thread.Sleep(1000);
+            } while (valasz != 0 && valasz != 1) ;
         }
     }
 }

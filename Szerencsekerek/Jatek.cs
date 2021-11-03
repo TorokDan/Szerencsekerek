@@ -120,30 +120,31 @@ namespace Szerencsekerek
         {
             return "mnjlrbdgzvptkcsfh".Contains(karakter);
         }
-        /// <summary>
-        /// Leellenőrőzi, hogy az adott karakter helyes mássalhangzó-e.
-        /// </summary>
-        /// <param name="karakter"></param>
-        /// <returns>
-        /// 0, ha a karakter mássalhangzó, és még nem volt tippelve. Ebben az esetben elmenti a tippelt mássalhagnzók közé.
-        /// 1, ha a karakter mássalhangzó, és már volt tippelve.
-        /// 2, ha a karakter nem mássalhangzó.
-        /// </returns>
         public int Tipp(char karakter, Random rnd) 
         {
             if (!"mnjlrbdgzvptkcsfh".Contains(karakter)) return 2;
-            else if (!tippek.Contains(karakter))
+            else if (!tippek.Contains(karakter) && mondas.Contains(karakter))
             {
                 tippek += karakter;
                 TitkosMondas(karakter);
                 this.jatekosok[jatekosKore].PontAdas(rnd.Next(1000, 20001));
-                jatekosKore = jatekosKore == 2 ? 0 : + 1;
                 return 0;
             }
             else
             {
+                if (jatekosKore == 2) jatekosKore = 0;
+                else if (jatekosKore < 2) jatekosKore++;
                 return 1;
             }
+        }
+        public bool Rakerdez(string proba)
+        {
+            if (proba == mondas)
+            {
+                this.jatekVege = true;
+                return true; 
+            }
+            return false;
         }
         public string TitkosMondasString()
         {
