@@ -25,6 +25,9 @@ namespace Szerencsekerek
                 Console.WriteLine("\n");
                 Kor(jatek);
             }
+            Console.WriteLine("Nyomj meg valamit a kilépéshez.");
+            Console.ReadKey();
+            Kilepes();
             ;
         }
 
@@ -63,20 +66,11 @@ namespace Szerencsekerek
         }
         static char MassalhangzoBeker(Jatek jatek) 
         {
-            Console.WriteLine($"\n{jatek.Jatekosok[jatek.JatekosKore].Nev} tippeljen egy mássalhangzót, vagy kérdezzen rá!");
-            string tipp = Console.ReadLine().ToLower();
-            char tippKar = ' ';
-            if (tipp.Length == 1)
-            {
-                tippKar = char.Parse(tipp);
-            }
-            else if (tipp.Length > 1)
-            {
-                jatek.Rakerdez(tipp);
-            }
-            //try { tipp = char.ToLower(char.Parse(Console.ReadLine())); }
-            //catch (System.FormatException e) { }
-            if (!jatek.MassalhangzoE(tippKar))
+            Console.WriteLine($"\n{jatek.Jatekosok[jatek.JatekosKore].Nev} tippeljen egy mássalhangzót");
+            char tipp = ' ';
+            try { tipp = char.ToLower(char.Parse(Console.ReadLine())); }
+            catch (System.FormatException e) { }
+            if (!jatek.MassalhangzoE(tipp))
             {
                 Console.WriteLine("Ez nem egy mássalhangzó.");
                 System.Threading.Thread.Sleep(1500);
@@ -91,16 +85,40 @@ namespace Szerencsekerek
             Console.WriteLine(jatek.TitkosMondasString());
             Random rnd = new Random();
             int valasz = 2;
-            do
+            Console.WriteLine("Rá szeretnél kérdezni?(I/N)");
+            char rakerdezE = ' ';
+            try
             {
-                char tipp = MassalhangzoBeker(jatek);
-                valasz = jatek.Tipp(tipp, rnd);
-                Console.WriteLine(jatek.JatekosKore);
-                if (valasz == 2) Console.WriteLine("Kérlek mássalhangzót adj meg!");
-                else if (valasz == 1) Console.WriteLine("Sajnos rossz választás!");
-                else if (valasz == 0) Console.WriteLine("Gratulálok!");
-                System.Threading.Thread.Sleep(1000);
-            } while (valasz != 0 && valasz != 1) ;
+                rakerdezE = char.Parse(Console.ReadLine().ToLower());
+            }
+            catch (System.FormatException e)
+            {
+            }
+            if ( rakerdezE == 'n')
+            {
+                do
+                {
+                    char tipp = MassalhangzoBeker(jatek);
+                    valasz = jatek.Tipp(tipp, rnd);
+                    if (valasz == 2) Console.WriteLine("Kérlek mássalhangzót adj meg!");
+                    else if (valasz == 1) Console.WriteLine("Sajnos rossz választás!");
+                    else if (valasz == 0) Console.WriteLine("Gratulálok!");
+                    System.Threading.Thread.Sleep(1000);
+                } while (valasz != 0 && valasz != 1) ;
+            }
+            else if ( rakerdezE == 'i')
+            {
+                if (jatek.Rakerdez(Console.ReadLine()))
+                {
+                    Console.WriteLine($"Graturlálok, {jatek.Jatekosok[jatek.JatekosKore].Nev} {jatek.Jatekosok[jatek.JatekosKore].Pontok} ponttal nyert!!!!!44!!!!4!!!4!");
+                    System.Threading.Thread.Sleep(1500);
+                }
+                else
+                {
+                    Console.WriteLine("Sajnos nem talált! :(");
+                    System.Threading.Thread.Sleep(1500);
+                }
+            }
         }
     }
 }

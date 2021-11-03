@@ -139,7 +139,7 @@ namespace Szerencsekerek
         }
         public bool Rakerdez(string proba)
         {
-            if (proba == mondas)
+            if (proba == mondas.ToLower())
             {
                 this.jatekVege = true;
                 return true; 
