@@ -27,9 +27,7 @@ namespace Szerencsekerek
                 Console.WriteLine("\n");
                 Kor(jatek);
             }
-            Console.WriteLine("Nyomj meg valamit a kilépéshez.");
-            Console.ReadKey();
-            Kilepes();
+            jatek.JatekVegePontokkal();
             ;
         }
 
@@ -113,16 +111,16 @@ namespace Szerencsekerek
             else if ( rakerdezE == 'i')
             {
                 string proba = Console.ReadLine();
-                Console.WriteLine($"\n{jatek.Mondas}\n{proba}");
-                if (jatek.Rakerdez(proba))
+                //Console.WriteLine($"\n{jatek.Mondas}\n{proba}");
+                if (!jatek.Rakerdez(proba))
                 {
-                    Console.WriteLine($"Graturlálok, {jatek.Jatekosok[jatek.JatekosKore].Nev} {jatek.Jatekosok[jatek.JatekosKore].Pontok} ponttal nyert!!!!!44!!!!4!!!4!");
-                    System.Threading.Thread.Sleep(1500);
+                   Console.WriteLine("Sajnos nem talált! :(");
+                   System.Threading.Thread.Sleep(1500);
                 }
                 else
                 {
-                    Console.WriteLine("Sajnos nem talált! :(");
-                    System.Threading.Thread.Sleep(1500);
+                    Console.WriteLine("Gratulálunk, kitaláltad!");
+                    jatek.Kilepes(jatek.JatekosKore);
                 }
             }
         }

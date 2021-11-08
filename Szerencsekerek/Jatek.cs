@@ -12,6 +12,7 @@ namespace Szerencsekerek
         private Jatekos[] jatekosok = new Jatekos[3];
         private int jatekosokSzama = 4;
         private int jatekosKore = 0;
+        private int korSzama = 0;
         private string[] mondasok = new string[1];
         private string mondas;
         private char[] titkosMondas = new char[1];
@@ -22,6 +23,17 @@ namespace Szerencsekerek
             get
             {
                 return jatekVege;
+            }
+        }
+        public int KorSzama
+        {
+            get
+            {
+                return korSzama;
+            }
+            set
+            {
+                this.korSzama++;
             }
         }
         public Jatek(Random rnd)
@@ -36,7 +48,7 @@ namespace Szerencsekerek
             }
             sr.Close();
             mondasok = new string[sorokSzama];
-            sr = new StreamReader("Mondasok.txt", Encoding.Unicode);
+            sr = new StreamReader("Mondasok.txt", Encoding.UTF8);
             int szamlalo = 0;
             while (!sr.EndOfStream && szamlalo < sorokSzama)
             {
@@ -156,6 +168,44 @@ namespace Szerencsekerek
                 else if (titkosMondas[i] == ' ') valasz += "  ";
             }
             return valasz;
+        }
+        //public void Nyertes(int jatekos)
+        //{
+        //    Console.WriteLine($"Gratulálunk, {this.jatekosok[jatekos]} nyert");
+        //}
+        public void Kilepes(int jatekos)
+        {
+            Console.Clear();
+            Console.WriteLine($"Gratulálunk, {this.jatekosok[jatekos].Nev} nyert");
+            Console.WriteLine("Köszi, hogy játszottál");
+            System.Threading.Thread.Sleep(1500);
+            Environment.Exit(0);
+        }
+        public void JatekVegePontokkal()
+        {
+            Console.Clear();
+            int nyertes = 0;
+            for (int i = 0; i < this.jatekosok.Length; i++)
+            {
+                if (jatekosok[i].Pontok > jatekosok[nyertes].Pontok) nyertes = i;
+            }
+            int nyertesekSzama = 0;
+            for (int i = 0; i < this.jatekosok.Length; i++)
+            {
+                if (jatekosok[i].Pontok == jatekosok[nyertes].Pontok) nyertesekSzama++;
+            }
+            if (nyertesekSzama == 1) Console.WriteLine($"A játék véget ért. A nyertes: {jatekosok[nyertes]}");
+            else
+            {
+                Console.Write("A játék nyertesei: ");
+                for (int i = 0; i < this.jatekosok.Length; i++)
+                {
+                    if ( jatekosok[i].Pontok == jatekosok[nyertes].Pontok) Console.Write($"\n{jatekosok[i].Nev}\t{jatekosok[i].Pontok}");
+                }
+            }
+            Console.WriteLine("Köszi, hogy játszottatok");
+            System.Threading.Thread.Sleep(1500);
+            Environment.Exit(0);
         }
     }
 }
