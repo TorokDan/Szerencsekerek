@@ -10,6 +10,8 @@ namespace Szerencsekerek
     {
         static void Main(string[] args)
         {
+            Console.OutputEncoding = Encoding.Unicode;
+            Console.InputEncoding = Encoding.Unicode;
             Random rnd = new Random();
             Menu();
             Jatek jatek = new Jatek(rnd);
@@ -85,7 +87,9 @@ namespace Szerencsekerek
             Console.WriteLine(jatek.TitkosMondasString());
             Random rnd = new Random();
             int valasz = 2;
-            Console.WriteLine("Rá szeretnél kérdezni?(I/N)");
+            Console.WriteLine();
+            Console.WriteLine(jatek.Mondas);
+            Console.WriteLine("\nRá szeretnél kérdezni?(I/N)");
             char rakerdezE = ' ';
             try
             {
@@ -108,7 +112,9 @@ namespace Szerencsekerek
             }
             else if ( rakerdezE == 'i')
             {
-                if (jatek.Rakerdez(Console.ReadLine()))
+                string proba = Console.ReadLine();
+                Console.WriteLine($"\n{jatek.Mondas}\n{proba}");
+                if (jatek.Rakerdez(proba))
                 {
                     Console.WriteLine($"Graturlálok, {jatek.Jatekosok[jatek.JatekosKore].Nev} {jatek.Jatekosok[jatek.JatekosKore].Pontok} ponttal nyert!!!!!44!!!!4!!!4!");
                     System.Threading.Thread.Sleep(1500);

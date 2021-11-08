@@ -36,7 +36,7 @@ namespace Szerencsekerek
             }
             sr.Close();
             mondasok = new string[sorokSzama];
-            sr = new StreamReader("Mondasok.txt", Encoding.UTF8);
+            sr = new StreamReader("Mondasok.txt", Encoding.Unicode);
             int szamlalo = 0;
             while (!sr.EndOfStream && szamlalo < sorokSzama)
             {
