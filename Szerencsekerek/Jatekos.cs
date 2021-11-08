@@ -10,6 +10,7 @@ namespace Szerencsekerek
     {
         private string nev = "";
         private int pontok = 0;
+        private bool jatekosE;
 
         public string Nev
         {
@@ -20,6 +21,17 @@ namespace Szerencsekerek
             set 
             {
                 nev = value;
+            }
+        }
+        public bool JatekosE
+        {
+            get
+            {
+                return this.jatekosE;
+            }
+            set
+            {
+                this.jatekosE = value;
             }
         }
         public int Pontok
