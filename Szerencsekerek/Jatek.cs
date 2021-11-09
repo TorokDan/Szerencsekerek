@@ -80,17 +80,25 @@ namespace Szerencsekerek
         }
         public Jatek(string fileNev)
         {
-            string[] adatok = File.ReadAllLines(fileNev);
-            this.mondas = adatok[0];
-            this.titkosMondas = adatok[1].ToCharArray();
-            JatekosokSzama = int.Parse(adatok[2]);
-            for (int i = 0; i < this.jatekosok.Length; i++)
+            try
             {
-                this.jatekosok[i].Pontok = int.Parse(adatok[3].Split(' ')[i]);
+                string[] adatok = File.ReadAllLines(fileNev);
+                this.mondas = adatok[0];
+                this.titkosMondas = adatok[1].ToCharArray();
+                JatekosokSzama = int.Parse(adatok[2]);
+                for (int i = 0; i < this.jatekosok.Length; i++)
+                {
+                    this.jatekosok[i].Pontok = int.Parse(adatok[3].Split(' ')[i]);
+                }
+                this.jatekosKore = int.Parse(adatok[4]);
+                this.korSzama = int.Parse(adatok[5]);
+                this.tippek = adatok[6];
             }
-            this.jatekosKore = int.Parse(adatok[4]);
-            this.korSzama = int.Parse(adatok[5]);
-            this.tippek = adatok[6];
+            catch (System.IO.FileNotFoundException)
+            {
+                Console.WriteLine("Nem található mentett file, kérlek csinálj egyet, és próbálkozz újra.");
+                Environment.Exit(0);
+            }
         }
         public int JatekosKore
         {
@@ -106,17 +114,6 @@ namespace Szerencsekerek
             for (int i = 0; i < mondas.Length; i++)
             {
                 if (mondas[i] != ' ') titkosMondas[index++] = '_';
-                else if (mondas[i] == ' ') titkosMondas[index++] = ' ';
-            }
-        }
-        private void TitkosMondas(string volt) 
-        {
-            titkosMondas = new char[mondas.Length];
-            int index = 0;
-            for (int i = 0; i < mondas.Length; i++)
-            {
-                if (mondas[i] != ' ' && !volt.Contains(mondas[i])) titkosMondas[index++] = '_';
-                else if (volt.Contains(mondas[i])) titkosMondas[index++] = mondas[i];
                 else if (mondas[i] == ' ') titkosMondas[index++] = ' ';
             }
         }
@@ -230,7 +227,8 @@ namespace Szerencsekerek
             Console.Clear();
             Console.WriteLine($"Gratulálunk, {this.jatekosok[jatekos].Nev} nyert");
             Console.WriteLine("Köszi, hogy játszottál");
-            System.Threading.Thread.Sleep(1500);
+            Console.WriteLine("Nyomj entert a kilépéshez");
+            Console.ReadLine();
             Environment.Exit(0);
         }
         public void JatekVegePontokkal()

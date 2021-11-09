@@ -134,7 +134,7 @@ namespace Szerencsekerek
                             if (valasz == 2) Console.WriteLine("Kérlek mássalhangzót adj meg!");
                             else if (valasz == 1) Console.WriteLine("Sajnos rossz választás!");
                             else if (valasz == 0) Console.WriteLine("Gratulálok!");
-                            System.Threading.Thread.Sleep(1000);
+                            System.Threading.Thread.Sleep(1500);
                         } while (valasz != 0 && valasz != 1);
                     }
                     if (dontes == 2)
