@@ -46,23 +46,34 @@ namespace Szerencsekerek
         public Jatek(Random rnd)
         {
             //Nem a legoptimálisabb megoldás, ezt később megérné még átgondolni....
-            StreamReader sr = new StreamReader("Mondasok.txt", Encoding.UTF8);
-            int sorokSzama = 0;
-            while (!sr.EndOfStream)
+            StreamReader sr;
+            try
             {
-                sr.ReadLine();
-                sorokSzama++;
+                sr = new StreamReader("Mondasok.txt", Encoding.UTF8);
+                int sorokSzama = 0;
+                while (!sr.EndOfStream)
+                {
+                    sr.ReadLine();
+                    sorokSzama++;
+                }
+                sr.Close();
+                mondasok = new string[sorokSzama];
+                sr = new StreamReader("Mondasok.txt", Encoding.UTF8);
+                int szamlalo = 0;
+                while (!sr.EndOfStream && szamlalo < sorokSzama)
+                {
+                    mondasok[szamlalo] = sr.ReadLine().ToLower();
+                    szamlalo++;
+                }
+                sr.Close();
             }
-            sr.Close();
-            mondasok = new string[sorokSzama];
-            sr = new StreamReader("Mondasok.txt", Encoding.UTF8);
-            int szamlalo = 0;
-            while (!sr.EndOfStream && szamlalo < sorokSzama)
+            catch (System.IO.FileNotFoundException)
             {
-                mondasok[szamlalo] = sr.ReadLine().ToLower();
-                szamlalo++;
+                Console.WriteLine("Mondasok.txt file nem található. Kérlek rakj az szerencsekerek.exe mellé egy Mondasok.txt-t, ami tartalmazza a mondásokat, majd próbálkozz újra.");
+                Console.WriteLine("Nyomj entert a kilépéshez");
+                Console.ReadLine();
+                Environment.Exit(0);
             }
-            sr.Close();
             mondas = mondasok[rnd.Next(0, mondasok.Length)];
             titkosMondas = new char[mondas.Length];
             TitkosMondas();
