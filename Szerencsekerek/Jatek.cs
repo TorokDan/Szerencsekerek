@@ -25,6 +25,13 @@ namespace Szerencsekerek
                 return jatekVege;
             }
         }
+        public string Tippek 
+        {
+            get
+            {
+                return tippek;
+            }
+        }
         public int KorSzama
         {
             get
@@ -152,7 +159,11 @@ namespace Szerencsekerek
             }
             else
             {
-                if (jatekosKore == 2) jatekosKore = 0;
+                if (jatekosKore == 2)
+                {
+                    jatekosKore = 0;
+                    korSzama++;
+                }
                 else if (jatekosKore < 2) jatekosKore++;
                 return 1;
             }
@@ -177,10 +188,6 @@ namespace Szerencsekerek
             }
             return valasz;
         }
-        //public void Nyertes(int jatekos)
-        //{
-        //    Console.WriteLine($"Gratulálunk, {this.jatekosok[jatekos]} nyert");
-        //}
         public void Kilepes(int jatekos)
         {
             Console.Clear();
@@ -214,15 +221,6 @@ namespace Szerencsekerek
             Console.WriteLine("Köszi, hogy játszottatok");
             System.Threading.Thread.Sleep(1500);
             Environment.Exit(0);
-        }
-        public void BotLepes(Random rnd)
-        {
-            string massalhangzok = "mnjlrbdgzvptkcsfh";
-            char valasztott = massalhangzok[rnd.Next(0, massalhangzok.Length)];
-            if (massalhangzok.Contains(valasztott) && !tippek.Contains(valasztott))
-            {
-                Console.WriteLine($"Talán: {valasztott}");
-            }
         }
     }
 }
