@@ -13,8 +13,7 @@ namespace Szerencsekerek
             Console.OutputEncoding = Encoding.Unicode;
             Console.InputEncoding = Encoding.Unicode;
             Random rnd = new Random();
-            Menu();
-            Jatek jatek = new Jatek(rnd);
+            Jatek jatek = Menu();
             while (jatek.JatekosokSzama > 3 || jatek.JatekosokSzama < 0)
             {
                 Console.WriteLine("Kérlek add meg, hogy hányan fogtok játszani (maximum 3): ");
@@ -31,15 +30,16 @@ namespace Szerencsekerek
             ;
         }
 
-        static void Menu()
+        static Jatek Menu()
         {
             int valasztott = 0;
-            while (valasztott != 1)
+            while (valasztott != 1 && valasztott != 2)
             {
                 Console.Clear();
                 Console.WriteLine("Kérlek válassz az alábbi menüpontok közül: ");
                 Console.WriteLine("1. Játék kezdése");
-                Console.WriteLine("2. Kilépés");
+                Console.WriteLine("2. Mentes betöltése");
+                Console.WriteLine("3. Kilépés");
                 try
                 {
                     valasztott = int.Parse(Console.ReadLine());
@@ -48,9 +48,18 @@ namespace Szerencsekerek
                 {
                     Console.WriteLine("Kérlek számot adj meg");
                 }
-                if (valasztott == 2) Kilepes();
-                if (valasztott > 2 || valasztott < 1) HibasValasztas();
+                if (valasztott == 2)
+                {
+                    Console.WriteLine("Fejlesztés alatt");
+                }
+                if (valasztott == 3) Kilepes();
+                if (valasztott > 3 || valasztott < 1) HibasValasztas();
             }
+            // Ezt itt megérné átgondolni, h optimálisan fusson le, ez most így gyorsba jó lesz.... :(
+            Random rnd = new Random();
+            Jatek jatek =  new Jatek(rnd);
+            if (valasztott == 2) jatek = new Jatek("Mentes.txt");
+            return jatek;
         }
         static void Kilepes()
         {
@@ -105,13 +114,13 @@ namespace Szerencsekerek
                     if (dontes == 4) Kilepes();
                     if (dontes == 3)
                     {
-                        Console.WriteLine("Ez a funkció még nem érhető el :(");
+                        jatek.MentesLetrehozasa();
                         System.Threading.Thread.Sleep(1500);
                     }
                 }
                     if (dontes == 1)
                     {
-                        int valasz = 2;
+                        int valasz = 3;
                         do
                         {
                             char tipp = MassalhangzoBeker(jatek);

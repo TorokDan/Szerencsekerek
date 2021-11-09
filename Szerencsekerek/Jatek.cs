@@ -75,8 +75,22 @@ namespace Szerencsekerek
                 Environment.Exit(0);
             }
             mondas = mondasok[rnd.Next(0, mondasok.Length)];
-            titkosMondas = new char[mondas.Length];
+            //titkosMondas = new char[mondas.Length];
             TitkosMondas();
+        }
+        public Jatek(string fileNev)
+        {
+            string[] adatok = File.ReadAllLines(fileNev);
+            this.mondas = adatok[0];
+            this.titkosMondas = adatok[1].ToCharArray();
+            JatekosokSzama = int.Parse(adatok[2]);
+            for (int i = 0; i < this.jatekosok.Length; i++)
+            {
+                this.jatekosok[i].Pontok = int.Parse(adatok[3].Split(' ')[i]);
+            }
+            this.jatekosKore = int.Parse(adatok[4]);
+            this.korSzama = int.Parse(adatok[5]);
+            this.tippek = adatok[6];
         }
         public int JatekosKore
         {
@@ -95,9 +109,19 @@ namespace Szerencsekerek
                 else if (mondas[i] == ' ') titkosMondas[index++] = ' ';
             }
         }
+        private void TitkosMondas(string volt) 
+        {
+            titkosMondas = new char[mondas.Length];
+            int index = 0;
+            for (int i = 0; i < mondas.Length; i++)
+            {
+                if (mondas[i] != ' ' && !volt.Contains(mondas[i])) titkosMondas[index++] = '_';
+                else if (volt.Contains(mondas[i])) titkosMondas[index++] = mondas[i];
+                else if (mondas[i] == ' ') titkosMondas[index++] = ' ';
+            }
+        }
         private void TitkosMondas(char karakter)
         {
-            // Itt valami nem jó.... valamiért nem jegyzi meg a régi tippeket maga a tömb....
             int index = 0;
             for (int i = 0; i < mondas.Length; i++)
             {
@@ -232,6 +256,30 @@ namespace Szerencsekerek
             Console.WriteLine("Köszi, hogy játszottatok\nKilépéshez nyomj meg egy gombot.");
             Console.ReadLine();
             Environment.Exit(0);
+        }
+        public void MentesLetrehozasa() 
+        {
+            string titkosMondasString = "";
+            for (int i = 0; i < this.titkosMondas.Length; i++)
+            {
+                titkosMondasString += titkosMondas[i];
+            }
+            string pontok = "";
+            for (int i = 0; i < this.jatekosok.Length; i++)
+            {
+                pontok += this.jatekosok[i].Pontok.ToString() + " ";
+            }
+            string[] adatok = new string[]
+            {
+                this.mondas,
+                titkosMondasString,
+                this.jatekosokSzama.ToString(),
+                pontok,
+                this.jatekosKore.ToString(),
+                this.korSzama.ToString(),
+                this.tippek
+            };
+            File.WriteAllLines("Mentes.txt", adatok);
         }
     }
 }

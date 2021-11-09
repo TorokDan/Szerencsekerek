@@ -40,6 +40,10 @@ namespace Szerencsekerek
             {
                 return pontok;
             }
+            set
+            {
+                this.pontok = value;
+            }
         }
 
         public void PontAdas(int pont)
