@@ -35,7 +35,6 @@ namespace Szerencsekerek
             jatek.JatekVegePontokkal();
             ;
         }
-
         static Jatek Menu()
         {
             int valasztott = 0;

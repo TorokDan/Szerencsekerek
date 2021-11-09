@@ -188,6 +188,7 @@ namespace Szerencsekerek
             {
                 tippek += karakter;
                 TitkosMondas(karakter);
+                this.jatekosok[jatekosKore].Talalat += 1;
                 this.jatekosok[jatekosKore].PontAdas(rnd.Next(1000, 20001));
                 return 0;
             }
@@ -253,7 +254,7 @@ namespace Szerencsekerek
                     if ( jatekosok[i].Pontok == jatekosok[nyertes].Pontok) Console.Write($"\n{jatekosok[i].Nev}\t{jatekosok[i].Pontok}");
                 }
             }
-            Console.WriteLine("Köszi, hogy játszottatok\nKilépéshez nyomj meg egy gombot.");
+            Console.WriteLine("Köszi, hogy játszottatok\nKilépéshez nyomj entert.");
             Console.ReadLine();
             Environment.Exit(0);
         }
