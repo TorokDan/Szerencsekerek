@@ -81,17 +81,17 @@ namespace Szerencsekerek
         }
         static void Kor(Jatek jatek)
         {
-            Console.Clear();
-            Console.WriteLine($"{jatek.Jatekosok[jatek.JatekosKore]} köre van");
-            jatek.Eredmeyek();
-            Console.WriteLine(jatek.TitkosMondasString());
             Random rnd = new Random();
             Console.WriteLine();
             if (jatek.Jatekosok[jatek.JatekosKore].JatekosE == true)
             {
                 int dontes = 0;
-                while (dontes != 1)
+                while (dontes != 1 && dontes != 2)
                 {
+                    Console.Clear();
+                    Console.WriteLine($"{jatek.KorSzama + 1}. kör: {jatek.Jatekosok[jatek.JatekosKore].Nev} jön");
+                    jatek.Eredmeyek();
+                    Console.WriteLine("\n" + jatek.TitkosMondasString());
                     Console.WriteLine("\nMit szeretnél csinálni? \nTippel(1)\nRákérdez(2)\nMentés(3)\nKilépés(4)");
                     try
                     {
@@ -103,7 +103,12 @@ namespace Szerencsekerek
                     }
                     if (4 < dontes || dontes < 1) Console.WriteLine("Kérlek a megadott opciók közül válassz!");
                     if (dontes == 4) Kilepes();
-                    if (dontes == 3) Console.WriteLine("Ez a funkció még nem érhető el :(");
+                    if (dontes == 3)
+                    {
+                        Console.WriteLine("Ez a funkció még nem érhető el :(");
+                        System.Threading.Thread.Sleep(1500);
+                    }
+                }
                     if (dontes == 1)
                     {
                         int valasz = 2;
@@ -120,7 +125,6 @@ namespace Szerencsekerek
                     if (dontes == 2)
                     {
                         string proba = Console.ReadLine();
-                        //Console.WriteLine($"\n{jatek.Mondas}\n{proba}");
                         if (!jatek.Rakerdez(proba))
                         {
                             Console.WriteLine("Sajnos nem talált! :(");
@@ -133,7 +137,6 @@ namespace Szerencsekerek
                         }
                     }
                     System.Threading.Thread.Sleep(1500);
-                }
                 //if ( dontes == 1)
                 //{
                 //    int valasz = 2;
@@ -165,12 +168,16 @@ namespace Szerencsekerek
             }
             if (jatek.Jatekosok[jatek.JatekosKore].JatekosE == false)
             {
+                string jelenlegiBot = jatek.Jatekosok[jatek.JatekosKore].Nev;
+                Console.Clear();
+                Console.WriteLine($"{jatek.KorSzama + 1}. kör: {jatek.Jatekosok[jatek.JatekosKore].Nev} jön"); jatek.Eredmeyek();
+                Console.WriteLine("\n" + jatek.TitkosMondasString());
                 string massalhangzok = "mnjlrbdgzvptkcsfh";
                 char valasztott = massalhangzok[rnd.Next(0, massalhangzok.Length)];
                 int valasz = jatek.Tipp(valasztott, rnd);
-                if (valasz == 1) Console.WriteLine("A számítógép rosszat tippelt");
-                if (valasz == 0) Console.WriteLine($"A számítógép tippje helyes volt: {valasztott}");
-                System.Threading.Thread.Sleep(1500);
+                if (valasz == 1) Console.WriteLine($"{jelenlegiBot} rosszat tippelt");
+                if (valasz == 0) Console.WriteLine($"{jelenlegiBot} tippje helyes volt: {valasztott}");
+                System.Threading.Thread.Sleep(2000);
             }
         }
     }

@@ -209,7 +209,7 @@ namespace Szerencsekerek
             {
                 if (jatekosok[i].Pontok == jatekosok[nyertes].Pontok) nyertesekSzama++;
             }
-            if (nyertesekSzama == 1) Console.WriteLine($"A játék véget ért. A nyertes: {jatekosok[nyertes]}");
+            if (nyertesekSzama == 1) Console.WriteLine($"A játék véget ért. A nyertes: {jatekosok[nyertes].Nev}");
             else
             {
                 Console.Write("A játék nyertesei: ");
@@ -218,8 +218,8 @@ namespace Szerencsekerek
                     if ( jatekosok[i].Pontok == jatekosok[nyertes].Pontok) Console.Write($"\n{jatekosok[i].Nev}\t{jatekosok[i].Pontok}");
                 }
             }
-            Console.WriteLine("Köszi, hogy játszottatok");
-            System.Threading.Thread.Sleep(1500);
+            Console.WriteLine("Köszi, hogy játszottatok\nKilépéshez nyomj meg egy gombot.");
+            Console.ReadLine();
             Environment.Exit(0);
         }
     }
