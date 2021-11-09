@@ -109,7 +109,7 @@ namespace Szerencsekerek
                 {
                     Console.Clear();
                     Console.WriteLine($"{jatek.KorSzama + 1}. kör: {jatek.Jatekosok[jatek.JatekosKore].Nev} jön");
-                    jatek.Eredmeyek();
+                    Console.WriteLine(jatek.ToString());
                     Console.WriteLine("\n" + jatek.TitkosMondasString());
                     Console.WriteLine("\nMit szeretnél csinálni? \nTippel(1)\nRákérdez(2)\nMentés(3)\nKilépés(4)");
                     try
@@ -162,7 +162,8 @@ namespace Szerencsekerek
             {
                 string jelenlegiBot = jatek.Jatekosok[jatek.JatekosKore].Nev;
                 Console.Clear();
-                Console.WriteLine($"{jatek.KorSzama + 1}. kör: {jatek.Jatekosok[jatek.JatekosKore].Nev} jön"); jatek.Eredmeyek();
+                Console.WriteLine($"{jatek.KorSzama + 1}. kör: {jatek.Jatekosok[jatek.JatekosKore].Nev} jön");
+                Console.WriteLine(jatek.ToString());
                 Console.WriteLine("\n" + jatek.TitkosMondasString());
                 string massalhangzok = "mnjlrbdgzvptkcsfh";
                 char valasztott = massalhangzok[rnd.Next(0, massalhangzok.Length)];

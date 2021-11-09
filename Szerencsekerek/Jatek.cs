@@ -168,14 +168,14 @@ namespace Szerencsekerek
                 return jatekosokSzama;
             }
         }
-        public void Eredmeyek()
+        public override string ToString()
         {
-            Console.WriteLine("\n" + String.Format("{0,-20}{1,5}", "Név", "Pontok") + "\n");
+            string s = "\n" + String.Format("{0,-20}{1,5}", "Név", "Pontok") + "\n";
             for (int i = 0; i < this.jatekosok.Length; i++)
             {
-                Console.WriteLine(String.Format("{0,-20}{1,5}", this.jatekosok[i].Nev, jatekosok[i].Pontok));
-                //Console.WriteLine($"{jatekosok[i].Nev}: \t{jatekosok[i].Pontok}");
+                s += String.Format("{0,-20}{1,5}", this.jatekosok[i].Nev, jatekosok[i].Pontok) + "\n";
             }
+            return s;
         }
         public bool MassalhangzoE(char karakter)
         {
