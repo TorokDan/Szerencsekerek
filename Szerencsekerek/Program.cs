@@ -64,7 +64,11 @@ namespace Szerencsekerek
             // Ezt itt megérné átgondolni, h optimálisan fusson le, ez most így gyorsba jó lesz.... :(
             Random rnd = new Random();
             Jatek jatek =  new Jatek(rnd);
-            if (valasztott == 2) jatek = new Jatek("Mentes.txt");
+            if (valasztott == 2) 
+            {
+                Console.WriteLine("Kérlek add meg, hogy mi a mentésed neve (.txt nélkül)");
+                jatek = new Jatek($"{Console.ReadLine()}.txt"); 
+            }
             return jatek;
         }
         static void Kilepes()
@@ -120,7 +124,8 @@ namespace Szerencsekerek
                     if (dontes == 4) Kilepes();
                     if (dontes == 3)
                     {
-                        jatek.MentesLetrehozasa();
+                        Console.WriteLine("Kérlek add meg a mentés nevét!");
+                        jatek.MentesLetrehozasa(Console.ReadLine());
                         System.Threading.Thread.Sleep(1500);
                     }
                 }

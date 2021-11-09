@@ -96,7 +96,7 @@ namespace Szerencsekerek
             }
             catch (System.IO.FileNotFoundException)
             {
-                Console.WriteLine("Nem található mentett file, kérlek csinálj egyet, és próbálkozz újra.");
+                Console.WriteLine("Nem található a megadott file, kérlek csinálj egyet, és próbálkozz újra.");
                 Environment.Exit(0);
             }
         }
@@ -257,7 +257,7 @@ namespace Szerencsekerek
             Console.ReadLine();
             Environment.Exit(0);
         }
-        public void MentesLetrehozasa() 
+        public void MentesLetrehozasa(string fileNev) 
         {
             string titkosMondasString = "";
             for (int i = 0; i < this.titkosMondas.Length; i++)
@@ -279,7 +279,7 @@ namespace Szerencsekerek
                 this.korSzama.ToString(),
                 this.tippek
             };
-            File.WriteAllLines("Mentes.txt", adatok);
+            File.WriteAllLines($"{fileNev}.txt", adatok);
         }
     }
 }
