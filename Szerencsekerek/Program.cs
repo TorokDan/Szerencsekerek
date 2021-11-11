@@ -13,20 +13,14 @@ namespace Szerencsekerek
         {
             Console.OutputEncoding = Encoding.Unicode;
             Console.InputEncoding = Encoding.Unicode;
-            Random rnd = new Random();
             Jatek jatek = Menu();
-            while (jatek.JatekosokSzama > 3 || jatek.JatekosokSzama < 0)
+            string bekertSzam = " ";
+            while (bekertSzam != 1.ToString() && bekertSzam != 2.ToString() && bekertSzam != 3.ToString())
             {
                 Console.WriteLine("Kérlek add meg, hogy hányan fogtok játszani (maximum 3): ");
-                try 
-                { 
+                if (bekertSzam == 1.ToString() && bekertSzam == 2.ToString() && bekertSzam == 3.ToString())
                     jatek.JatekosokSzama = int.Parse(Console.ReadLine()); 
-                }
-                catch (System.FormatException e) 
-                { 
-                    Console.WriteLine("Kérlek számot adj meg"); 
-                }
-                if (jatek.JatekosokSzama > 3 || jatek.JatekosokSzama < 0) Console.WriteLine("Kérlek 0 és 3 közötti számot adj meg");
+                else Console.WriteLine("Kérlek 1 és 3 közötti számot adj meg");
             }
             while (jatek.JatekVege == false && jatek.KorSzama < 3)
             {
