@@ -158,20 +158,20 @@ namespace Szerencsekerek
                         Console.WriteLine("Kérlek a lehetőségek közül válassz");
                     System.Threading.Thread.Sleep(1500);
                 }
-                if (jatek.Jatekosok[jatek.JatekosKore].JatekosE == false)
-                {
-                    string jelenlegiBot = jatek.Jatekosok[jatek.JatekosKore].Nev;
-                    Console.Clear();
-                    Console.WriteLine($"{jatek.KorSzama + 1}. kör: {jatek.Jatekosok[jatek.JatekosKore].Nev} jön");
-                    Console.WriteLine(jatek.ToString());
-                    Console.WriteLine("\n" + jatek.TitkosMondasString());
-                    string massalhangzok = "mnjlrbdgzvptkcsfh";
-                    char valasztott = massalhangzok[rnd.Next(0, massalhangzok.Length)];
-                    int valasz = jatek.Tipp(valasztott, rnd);
-                    if (valasz == 1) Console.WriteLine($"{jelenlegiBot} rosszat tippelt: {valasztott}");
-                    if (valasz == 0) Console.WriteLine($"{jelenlegiBot} tippje helyes volt: {valasztott}");
-                    System.Threading.Thread.Sleep(2000);
-                }
+            }
+            if (jatek.Jatekosok[jatek.JatekosKore].JatekosE == false)
+            {
+                string jelenlegiBot = jatek.Jatekosok[jatek.JatekosKore].Nev;
+                Console.Clear();
+                Console.WriteLine($"{jatek.KorSzama + 1}. kör: {jatek.Jatekosok[jatek.JatekosKore].Nev} jön");
+                Console.WriteLine(jatek.ToString());
+                Console.WriteLine("\n" + jatek.TitkosMondasString());
+                string massalhangzok = "mnjlrbdgzvptkcsfh";
+                char valasztott = massalhangzok[rnd.Next(0, massalhangzok.Length)];
+                int valasz = jatek.Tipp(valasztott, rnd);
+                if (valasz == 1) Console.WriteLine($"{jelenlegiBot} rosszat tippelt: {valasztott}");
+                if (valasz == 0) Console.WriteLine($"{jelenlegiBot} tippje helyes volt: {valasztott}");
+                System.Threading.Thread.Sleep(2000);
             }
         }
     }

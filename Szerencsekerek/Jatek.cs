@@ -53,6 +53,7 @@ namespace Szerencsekerek
             else
             {
                 Console.WriteLine("Mondasok.txt nem található, kérlek tetdd a megfelelő helyre!");
+                System.Threading.Thread.Sleep(2000);
                 Environment.Exit(0);
             }
             mondasok = new string[sorok.Length];
