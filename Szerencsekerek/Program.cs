@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,36 +38,45 @@ namespace Szerencsekerek
         }
         static Jatek Menu()
         {
-            int valasztott = 0;
-            while (valasztott != 1 && valasztott != 2)
+            string valasztott = " ";
+            while (valasztott != "1" && valasztott != "2")
             {
                 Console.Clear();
                 Console.WriteLine("Kérlek válassz az alábbi menüpontok közül: ");
                 Console.WriteLine("1. Játék kezdése");
                 Console.WriteLine("2. Mentes betöltése");
                 Console.WriteLine("3. Kilépés");
-                try
-                {
-                    valasztott = int.Parse(Console.ReadLine());
-                }
-                catch (System.FormatException e)
-                {
-                    Console.WriteLine("Kérlek számot adj meg");
-                }
-                if (valasztott == 2)
-                {
-                    Console.WriteLine("Fejlesztés alatt");
-                }
-                if (valasztott == 3) Kilepes();
-                if (valasztott > 3 || valasztott < 1) HibasValasztas();
+                valasztott = Console.ReadLine();
+                if (valasztott == "3") 
+                    Kilepes();
+                if (valasztott != "1" && valasztott != "2" && valasztott != "3") 
+                    HibasValasztas();
             }
-            // Ezt itt megérné átgondolni, h optimálisan fusson le, ez most így gyorsba jó lesz.... :(
-            Random rnd = new Random();
-            Jatek jatek =  new Jatek(rnd);
-            if (valasztott == 2) 
+            Jatek jatek =  new Jatek();
+            if (valasztott == "2") 
             {
-                Console.WriteLine("Kérlek add meg, hogy mi a mentésed neve (.txt nélkül)");
-                jatek = new Jatek($"{Console.ReadLine()}.txt"); 
+                string[] fileName = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.txt", SearchOption.AllDirectories);
+                bool valtozas = false;
+                while (!valtozas)
+                {
+                    Console.WriteLine("Kérlek válassz az alábbi mentések közül!");
+                    for (int i = 0; i < fileName.Length; i++)
+                    {
+                        int start = fileName[i].LastIndexOf('\\') + 1;
+                        int end = fileName[i].LastIndexOf('.');
+                        Console.WriteLine($"{i + 1} " + fileName[i].Substring(0, end).Substring(start));
+                    }
+                    string valasztas = Console.ReadLine();
+                    for (int i = 0; i < fileName.Length; i++)
+                    {
+                        if (valasztas == i.ToString() && i < fileName.Length && 0 < i)
+                        {
+                            jatek = new Jatek(fileName[i-1]);
+                            valtozas = true;
+                        }
+                    }
+                    if (!valtozas) Console.WriteLine("\nKérlek a mefadott opciók közül válassz!\n");
+                }
             }
             return jatek;
         }

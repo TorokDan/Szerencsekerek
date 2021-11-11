@@ -9,6 +9,7 @@ namespace Szerencsekerek
 {
     class Jatek
     {
+        Random rnd = new Random();
         private Jatekos[] jatekosok = new Jatekos[3];
         private int jatekosokSzama = 4;
         private int jatekosKore = 0;
@@ -43,7 +44,7 @@ namespace Szerencsekerek
         {
             this.korSzama++;
         }
-        public Jatek(Random rnd)
+        public Jatek()
         {
             //Nem a legoptimálisabb megoldás, ezt később megérné még átgondolni....
             StreamReader sr;
@@ -80,25 +81,17 @@ namespace Szerencsekerek
         }
         public Jatek(string fileNev)
         {
-            try
+            string[] adatok = File.ReadAllLines(fileNev);
+            this.mondas = adatok[0];
+            this.titkosMondas = adatok[1].ToCharArray();
+            JatekosokSzama = int.Parse(adatok[2]);
+            for (int i = 0; i < this.jatekosok.Length; i++)
             {
-                string[] adatok = File.ReadAllLines(fileNev);
-                this.mondas = adatok[0];
-                this.titkosMondas = adatok[1].ToCharArray();
-                JatekosokSzama = int.Parse(adatok[2]);
-                for (int i = 0; i < this.jatekosok.Length; i++)
-                {
-                    this.jatekosok[i].Pontok = int.Parse(adatok[3].Split(' ')[i]);
-                }
-                this.jatekosKore = int.Parse(adatok[4]);
-                this.korSzama = int.Parse(adatok[5]);
-                this.tippek = adatok[6];
+                this.jatekosok[i].Pontok = int.Parse(adatok[3].Split(' ')[i]);
             }
-            catch (System.IO.FileNotFoundException)
-            {
-                Console.WriteLine("Nem található a megadott file, kérlek csinálj egyet, és próbálkozz újra.");
-                Environment.Exit(0);
-            }
+            this.jatekosKore = int.Parse(adatok[4]);
+            this.korSzama = int.Parse(adatok[5]);
+            this.tippek = adatok[6];
         }
         public int JatekosKore
         {
