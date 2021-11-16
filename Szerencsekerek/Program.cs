@@ -41,29 +41,37 @@ namespace Szerencsekerek
                 if (valasztott != 1.ToString() && valasztott != 2.ToString() && valasztott != 3.ToString() && valasztott != 4.ToString())
                     HibasValasztas();
             }
-            if (valasztott == 2.ToString())  // mentes
+            if (valasztott == 2.ToString())  // Mentés betöltése
             {
                 string[] fileName = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.txt", SearchOption.AllDirectories);
                 bool valtozas = false;
                 while (!valtozas)
                 {
+                    Console.Clear();
                     Console.WriteLine("Kérlek válassz az alábbi mentések közül! (Kilépéshez nyomd meg a q-t)");
-                    for (int i = 0; i < fileName.Length; i++)
+                    for (int i = 0; i <= fileName.Length; i++)
                     {
-                        int start = fileName[i].LastIndexOf('\\') + 1;
-                        int end = fileName[i].LastIndexOf('.');
-                        Console.WriteLine($"{i + 1} " + fileName[i].Substring(0, end).Substring(start));
+                        if (i < fileName.Length)
+                        {
+                            int start = fileName[i].LastIndexOf('\\') + 1;
+                            int end = fileName[i].LastIndexOf('.');
+                            Console.WriteLine($"{i + 1}. " + fileName[i].Substring(0, end).Substring(start));
+                        }
+                        if (fileName.Length == i )
+                            Console.WriteLine($"{i + 1}. Vissza");
                     }
                     string valasztas = Console.ReadLine();
-                    for (int i = 0; i < fileName.Length; i++)
+                    for (int i = 1; i <= fileName.Length; i++)
                     {
-                        if (valasztas == i.ToString() && i < fileName.Length && 0 < i)
+                        if (valasztas == i.ToString() && i < fileName.Length+1 && 0 < i)
                         {
                             jatek = new Jatek(fileName[i - 1]);
+                            Console.WriteLine("asdf");
                             valtozas = true;
+                            System.Threading.Thread.Sleep(1000);
                         }
                     }
-                    if (valasztas == "q") Menu(jatek);
+                    if (valasztas == (fileName.Length+1).ToString()) Menu(jatek);
                     if (!valtozas) Console.WriteLine("\nKérlek a mefadott opciók közül válassz!\n");
                 }
             }
@@ -148,33 +156,34 @@ namespace Szerencsekerek
         }
         static char MassalhangzoBeker(Jatek jatek)
         {
-            Console.WriteLine($"\n{jatek.Jatekosok[jatek.JatekosKore].Nev} tippeljen egy mássalhangzót");
-            string tippStr = Console.ReadLine();
             char tipp = ' ';
-            if (tippStr.Length == 1)
-                tipp = char.Parse(tippStr);
-            if (!Jatek.MassalhangzoE(tipp))
+            while (!Jatek.MassalhangzoE(tipp))
             {
-                Console.WriteLine("Ez nem egy mássalhangzó.");
-                System.Threading.Thread.Sleep(1500);
-                MassalhangzoBeker(jatek);
+                Console.WriteLine($"\n{jatek.Jatekosok[jatek.JatekosKore].Nev} tippeljen egy mássalhangzót");
+                string tippStr = Console.ReadLine();
+                if (tippStr.Length == 1)
+                    tipp = char.Parse(tippStr);
+                if (!Jatek.MassalhangzoE(tipp))
+                {
+                    Console.WriteLine("Ez nem egy mássalhangzó.");
+                    System.Threading.Thread.Sleep(1500);
+                }
             }
             return tipp;
         }
         static char MaganhangzoBeker(Jatek jatek)
         {
-            Console.WriteLine($"\n{jatek.Jatekosok[jatek.JatekosKore].Nev} tippeljen egy magánhangzót");
-            string tippStr = Console.ReadLine();
             char tipp = ' ';
-            while (Jatek.MaganhangzoE(tipp))
+            while (!Jatek.MaganhangzoE(tipp))
             {
+                Console.WriteLine($"\n{jatek.Jatekosok[jatek.JatekosKore].Nev} tippeljen egy magánhangzót");
+                string tippStr = Console.ReadLine();
                 if (tippStr.Length == 1)
                     tipp = char.Parse(tippStr);
                 if (!Jatek.MaganhangzoE(tipp))
                 {
                     Console.WriteLine("Ez nem egy magánhangzó.");
                     System.Threading.Thread.Sleep(1500);
-                    //MaganhangzoBeker(jatek);
                 }
             }
             return tipp;
@@ -199,21 +208,19 @@ namespace Szerencsekerek
                     Console.WriteLine("5. Kilépés");
                     // itt sokminden át lett írva, ezt alaposan ki kell tesztelni
                     dontes = Console.ReadLine();
-                    if (dontes == 1.ToString()) //tipp
+                    if (dontes == 1.ToString()) // Mássalhangzó
                     {
                         int valasz = 3;
                         while (valasz != 0 && valasz != 1)
                         {
                             char tipp = MassalhangzoBeker(jatek);
-                            Console.WriteLine("asdf");
                             valasz = jatek.TippMassalhangzo(tipp);
-                            //if (valasz == 2) Console.WriteLine("Kérlek mássalhangzót adj meg!");
                             if (valasz == 1) Console.WriteLine("Sajnos rossz választás!");
                             else if (valasz == 0) Console.WriteLine("Gratulálok!");
                             System.Threading.Thread.Sleep(1500);
                         }
                     }
-                    else if (dontes == 2.ToString())
+                    else if (dontes == 2.ToString()) // Magánhangzó
                     {
                         int valasz = 3;
                         do
