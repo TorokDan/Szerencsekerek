@@ -180,31 +180,7 @@ namespace Szerencsekerek
         }
         public static bool MaganhangzoE(char karakter)
         {
-            return "öüóeuoőúűaéáí".Contains(karakter);
-        }
-        public int TippMassalhangzo(char karakter) 
-        {
-            if (!"mnjlrbdgzvptkcsfh".Contains(karakter)) return 2;
-            else if (!tippekMassalhangzo.Contains(karakter) && mondas.Contains(karakter))
-            {
-                tippekMassalhangzo += karakter;
-                segitsegMassalhangzoString += karakter + " ";
-                TitkosMondas(karakter);
-                this.jatekosok[jatekosKore].Talalat += 1;
-                this.jatekosok[jatekosKore].PontAdas(this.rnd.Next(1000, 20001));
-                return 0;
-            }
-            else
-            {
-                segitsegMassalhangzoString += karakter + " ";
-                if (jatekosKore == 2)
-                {
-                    jatekosKore = 0;
-                    korSzama++;
-                }
-                else if (jatekosKore < 2) jatekosKore++;
-                return 1;
-            }
+            return "öüóuioőúűaéáí".Contains(karakter);
         }
         public bool Rakerdez(string proba)
         {
@@ -285,25 +261,51 @@ namespace Szerencsekerek
             };
             File.WriteAllLines($"{fileNev}.txt", adatok);
         }
+        public int TippMassalhangzo(char karakter) 
+        {
+            if (!MassalhangzoE(karakter)) return 2;
+            else if (!tippekMassalhangzo.Contains(karakter) && mondas.Contains(karakter))
+            {
+                tippekMassalhangzo += karakter;
+                segitsegMassalhangzoString += karakter + " ";
+                TitkosMondas(karakter);
+                this.jatekosok[jatekosKore].Talalat += 1;
+                this.jatekosok[jatekosKore].PontAdas(this.rnd.Next(1000, 20001));
+                return 0;
+            }
+            else
+            {
+                segitsegMassalhangzoString += karakter + " ";
+                if (jatekosKore == 2)
+                {
+                    jatekosKore = 0;
+                    korSzama++;
+                }
+                else if (jatekosKore < 2) jatekosKore++;
+                return 1;
+            }
+        }
         public int MaganhangzoVetel(char karakter)
         {
-            string pool = "öüóeuoőúűaéáí";
             int ar = 3000;
+            if (!MaganhangzoE(karakter))
+                return 2;
             if (this.jatekosok[jatekosKore].Pontok < ar)
                 return 1;
-            if (!pool.Contains(karakter))
-                return 2;
-            if (pool.Contains(karakter) && this.mondas.Contains(karakter))
+            if (!tippekMaganhangzo.Contains(karakter) && this.mondas.Contains(karakter))
             {
                 this.tippekMaganhangzo += karakter;
                 this.segitsegMaganhangzoString += karakter + " ";
                 TitkosMondas(karakter);
+                this.jatekosok[jatekosKore].Talalat += 1;
+                this.jatekosok[jatekosKore].Pontok -= ar;
                 return 0;
             }
             else
             {
                 segitsegMaganhangzoString += karakter + " ";
-                if (jatekosKore == 0)
+                this.jatekosok[jatekosKore].Pontok -= ar;
+                if (jatekosKore == 2)
                 {
                     jatekosKore = 0;
                     korSzama++;
