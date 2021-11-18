@@ -11,11 +11,15 @@ namespace Szerencsekerek
     {
         static void Main(string[] args)
         {
+            //Console.WriteLine(Console.WindowHeight);
+            //Console.WriteLine(Console.WindowWidth);
+            //Console.ReadLine();
+            //Console.WindowHeight = 20;
+            //Console.WindowWidth = 90;
             Console.OutputEncoding = Encoding.Unicode;
             Console.InputEncoding = Encoding.Unicode;
             Jatek jatek = new Jatek();
-            Menu(jatek);
-            JatekosokSzamaBeker(jatek);
+            Menu(ref jatek);
             while (jatek.JatekVege == false && jatek.KorSzama < 3)
             {
                 Console.WriteLine();
@@ -24,13 +28,13 @@ namespace Szerencsekerek
             jatek.JatekVegePontokkal();
             ;
         }
-        static void Menu(Jatek jatek)
+        static void Menu(ref Jatek jatek)
         {
             string valasztott = " ";
             while (valasztott != "1" && valasztott != "2" && valasztott != 3.ToString())
             {
                 Console.Clear();
-                Console.WriteLine("Kérlek válassz az alábbi menüpontok közül: ");
+                Console.WriteLine("Kérlek válassz az alábbi menüpontok közül! ");
                 Console.WriteLine("1. Játék kezdése");
                 Console.WriteLine("2. Mentes betöltése");
                 Console.WriteLine("3. Beállítások");
@@ -41,14 +45,16 @@ namespace Szerencsekerek
                 if (valasztott != 1.ToString() && valasztott != 2.ToString() && valasztott != 3.ToString() && valasztott != 4.ToString())
                     HibasValasztas();
             }
+            if (valasztott == 1.ToString())
+                JatekosokSzamaBeker(jatek);
             if (valasztott == 2.ToString())  // Mentés betöltése
             {
-                string[] fileName = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.txt", SearchOption.AllDirectories);
+                string[] fileName = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.mentes", SearchOption.AllDirectories);
                 bool valtozas = false;
                 while (!valtozas)
                 {
                     Console.Clear();
-                    Console.WriteLine("Kérlek válassz az alábbi mentések közül! (Kilépéshez nyomd meg a q-t)");
+                    Console.WriteLine("Kérlek válassz az alábbi mentések közül!");
                     for (int i = 0; i <= fileName.Length; i++)
                     {
                         if (i < fileName.Length)
@@ -63,19 +69,19 @@ namespace Szerencsekerek
                     string valasztas = Console.ReadLine();
                     for (int i = 1; i <= fileName.Length; i++)
                     {
-                        if (valasztas == i.ToString() && i < fileName.Length+1 && 0 < i)
+                        if (valasztas == i.ToString() && i < fileName.Length + 1 && 0 < i)
                         {
                             jatek = new Jatek(fileName[i - 1]);
-                            Console.WriteLine("asdf");
                             valtozas = true;
                             System.Threading.Thread.Sleep(1000);
                         }
                     }
-                    if (valasztas == (fileName.Length+1).ToString()) Menu(jatek);
-                    if (!valtozas) Console.WriteLine("\nKérlek a mefadott opciók közül válassz!\n");
+                    if (valasztas == (fileName.Length+1).ToString()) Menu(ref jatek);
+                    if (!valtozas) Console.WriteLine("\nKérlek a megadott opciók közül válassz!\n");
+                    System.Threading.Thread.Sleep(1500);
                 }
             }
-            if (valasztott == 3.ToString()) // beállítások
+            else if (valasztott == 3.ToString()) // beállítások
             {
                 string be = " ";
                 while ( be != 5.ToString())
@@ -126,7 +132,7 @@ namespace Szerencsekerek
                     else if (be == 3.ToString()) jatek.SegitsegMassalhangzo = jatek.SegitsegMassalhangzo == true ? false : true;
                     else if (be == 4.ToString()) jatek.SegitsegMaganhangzo = jatek.SegitsegMaganhangzo == true ? false : true;
                 }
-                Menu(jatek);
+                Menu(ref jatek);
             }
         }
         static void JatekosokSzamaBeker(Jatek jatek)

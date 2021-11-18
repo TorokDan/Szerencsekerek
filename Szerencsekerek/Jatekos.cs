@@ -12,6 +12,19 @@ namespace Szerencsekerek
         private int pontok = 0;
         private int talalat = 0;
         private bool jatekosE;
+
+        public Jatekos()
+        {
+
+        }
+        public Jatekos(string nev, int pontok, int talalat, bool jatekosE)
+        {
+            this.nev = nev;
+            this.pontok = pontok;
+            this.talalat = talalat;
+            this.jatekosE = jatekosE;
+        }
+
         public string Nev
         {
             get

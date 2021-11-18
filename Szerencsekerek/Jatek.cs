@@ -89,13 +89,13 @@ namespace Szerencsekerek
             this.mondas = adatok[0];
             this.titkosMondas = adatok[1].ToCharArray();
             JatekosokSzama = int.Parse(adatok[2]);
-            for (int i = 0; i < this.jatekosok.Length; i++)
-            {
-                this.jatekosok[i].Pontok = int.Parse(adatok[3].Split(' ')[i]);
-            }
-            this.jatekosKore = int.Parse(adatok[4]);
-            this.korSzama = int.Parse(adatok[5]);
-            this.tippekMassalhangzo = adatok[6];
+            this.jatekosKore = int.Parse(adatok[3]);
+            this.korSzama = int.Parse(adatok[4]);
+            this.tippekMassalhangzo = adatok[5];
+            this.tippekMaganhangzo = adatok[6];
+            this.jatekosok[0] = new Jatekos(adatok[7].Split(' ')[0], int.Parse(adatok[7].Split(' ')[1]), int.Parse(adatok[7].Split(' ')[2]), bool.Parse(adatok[7].Split(' ')[3]));
+            this.jatekosok[1] = new Jatekos(adatok[8].Split(' ')[0], int.Parse(adatok[8].Split(' ')[1]), int.Parse(adatok[8].Split(' ')[2]), bool.Parse(adatok[8].Split(' ')[3]));
+            this.jatekosok[2] = new Jatekos(adatok[9].Split(' ')[0], int.Parse(adatok[9].Split(' ')[1]), int.Parse(adatok[9].Split(' ')[2]), bool.Parse(adatok[9].Split(' ')[3]));
         }
         public int JatekosKore
         {
@@ -254,12 +254,16 @@ namespace Szerencsekerek
                 this.mondas,
                 titkosMondasString,
                 this.jatekosokSzama.ToString(),
-                pontok,
                 this.jatekosKore.ToString(),
                 this.korSzama.ToString(),
-                this.tippekMassalhangzo
-            };
-            File.WriteAllLines($"{fileNev}.txt", adatok);
+                this.tippekMassalhangzo,
+                this.tippekMaganhangzo,
+                $"{this.jatekosok[0].Nev} {this.jatekosok[0].Pontok} {this.jatekosok[0].Talalat} {this.jatekosok[0].JatekosE}",
+                $"{this.jatekosok[1].Nev} {this.jatekosok[1].Pontok} {this.jatekosok[1].Talalat} {this.jatekosok[1].JatekosE}",
+                $"{this.jatekosok[2].Nev} {this.jatekosok[2].Pontok} {this.jatekosok[2].Talalat} {this.jatekosok[2].JatekosE}"
+
+        };
+            File.WriteAllLines($"{fileNev}.mentes", adatok);
         }
         public int TippMassalhangzo(char karakter) 
         {
