@@ -19,7 +19,7 @@ namespace Szerencsekerek
             Console.OutputEncoding = Encoding.Unicode;
             Console.InputEncoding = Encoding.Unicode;
             Jatek jatek = new Jatek();
-            Menu(ref jatek);
+            Menu(jatek);
             while (jatek.JatekVege == false && jatek.KorSzama < 3)
             {
                 Console.WriteLine();
@@ -28,7 +28,7 @@ namespace Szerencsekerek
             jatek.JatekVegePontokkal();
             ;
         }
-        static void Menu(ref Jatek jatek)
+        static void Menu(Jatek jatek)
         {
             string valasztott = " ";
             while (valasztott != "1" && valasztott != "2" && valasztott != 3.ToString())
@@ -63,7 +63,7 @@ namespace Szerencsekerek
                             int end = fileName[i].LastIndexOf('.');
                             Console.WriteLine($"{i + 1}. " + fileName[i].Substring(0, end).Substring(start));
                         }
-                        if (fileName.Length == i )
+                        if (fileName.Length == i)
                             Console.WriteLine($"{i + 1}. Vissza");
                     }
                     string valasztas = Console.ReadLine();
@@ -76,9 +76,17 @@ namespace Szerencsekerek
                             System.Threading.Thread.Sleep(1000);
                         }
                     }
-                    if (valasztas == (fileName.Length+1).ToString()) Menu(ref jatek);
-                    if (!valtozas) Console.WriteLine("\nKérlek a megadott opciók közül válassz!\n");
-                    System.Threading.Thread.Sleep(1500);
+                    if (valasztas == (fileName.Length + 1).ToString())
+                    {
+                        valtozas = true;
+                        Menu(jatek);
+
+                    }
+                    else if (!valtozas)
+                    {
+                        Console.WriteLine("\nKérlek a megadott opciók közül válassz!\n");
+                        System.Threading.Thread.Sleep(1500);
+                    }
                 }
             }
             else if (valasztott == 3.ToString()) // beállítások
@@ -132,7 +140,7 @@ namespace Szerencsekerek
                     else if (be == 3.ToString()) jatek.SegitsegMassalhangzo = jatek.SegitsegMassalhangzo == true ? false : true;
                     else if (be == 4.ToString()) jatek.SegitsegMaganhangzo = jatek.SegitsegMaganhangzo == true ? false : true;
                 }
-                Menu(ref jatek);
+                Menu(jatek);
             }
         }
         static void JatekosokSzamaBeker(Jatek jatek)
