@@ -18,8 +18,8 @@ namespace Szerencsekerek
             //Console.WindowWidth = 90;
             Console.OutputEncoding = Encoding.Unicode;
             Console.InputEncoding = Encoding.Unicode;
-            Jatek jatek = new Jatek();
-            Menu(jatek);
+            //Jatek jatek = new Jatek();
+            Jatek jatek = Menu();
             while (jatek.JatekVege == false && jatek.KorSzama < 3)
             {
                 Console.WriteLine();
@@ -28,8 +28,9 @@ namespace Szerencsekerek
             jatek.JatekVegePontokkal();
             ;
         }
-        static void Menu(Jatek jatek)
+        static Jatek Menu()
         {
+            Jatek jatek = new Jatek();
             string valasztott = " ";
             while (valasztott != "1" && valasztott != "2" && valasztott != 3.ToString())
             {
@@ -76,10 +77,11 @@ namespace Szerencsekerek
                             System.Threading.Thread.Sleep(1000);
                         }
                     }
+                    Console.WriteLine(jatek.Jatekosok[0].Nev);
                     if (valasztas == (fileName.Length + 1).ToString())
                     {
                         valtozas = true;
-                        Menu(jatek);
+                        Menu();
 
                     }
                     else if (!valtozas)
@@ -140,8 +142,9 @@ namespace Szerencsekerek
                     else if (be == 3.ToString()) jatek.SegitsegMassalhangzo = jatek.SegitsegMassalhangzo == true ? false : true;
                     else if (be == 4.ToString()) jatek.SegitsegMaganhangzo = jatek.SegitsegMaganhangzo == true ? false : true;
                 }
-                Menu(jatek);
+                jatek = Menu();
             }
+            return jatek;
         }
         static void JatekosokSzamaBeker(Jatek jatek)
         {

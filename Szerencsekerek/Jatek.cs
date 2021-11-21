@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+//using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
@@ -86,16 +86,40 @@ namespace Szerencsekerek
         public Jatek(string fileNev)
         {
             string[] adatok = File.ReadAllLines(fileNev);
-            this.mondas = adatok[0];
-            this.titkosMondas = adatok[1].ToCharArray();
-            JatekosokSzama = int.Parse(adatok[2]);
-            this.jatekosKore = int.Parse(adatok[3]);
-            this.korSzama = int.Parse(adatok[4]);
-            this.tippekMassalhangzo = adatok[5];
-            this.tippekMaganhangzo = adatok[6];
-            this.jatekosok[0] = new Jatekos(adatok[7].Split(' ')[0], int.Parse(adatok[7].Split(' ')[1]), int.Parse(adatok[7].Split(' ')[2]), bool.Parse(adatok[7].Split(' ')[3]));
-            this.jatekosok[1] = new Jatekos(adatok[8].Split(' ')[0], int.Parse(adatok[8].Split(' ')[1]), int.Parse(adatok[8].Split(' ')[2]), bool.Parse(adatok[8].Split(' ')[3]));
-            this.jatekosok[2] = new Jatekos(adatok[9].Split(' ')[0], int.Parse(adatok[9].Split(' ')[1]), int.Parse(adatok[9].Split(' ')[2]), bool.Parse(adatok[9].Split(' ')[3]));
+            this.jatekosKore = int.Parse(adatok[0]);
+            this.jatekosok[0] = new Jatekos(adatok[1].Split(' ')[0], int.Parse(adatok[1].Split(' ')[1]), int.Parse(adatok[1].Split(' ')[2]), bool.Parse(adatok[1].Split(' ')[3]));
+            this.jatekosok[1] = new Jatekos(adatok[2].Split(' ')[0], int.Parse(adatok[2].Split(' ')[1]), int.Parse(adatok[2].Split(' ')[2]), bool.Parse(adatok[2].Split(' ')[3]));
+            this.jatekosok[2] = new Jatekos(adatok[3].Split(' ')[0], int.Parse(adatok[3].Split(' ')[1]), int.Parse(adatok[3].Split(' ')[2]), bool.Parse(adatok[3].Split(' ')[3]));
+            this.jatekosokSzama = int.Parse(adatok[4]);
+            this.korSzama = int.Parse(adatok[5]);
+            this.segitsegMassalhangzoString = adatok[6];
+            this.segitsegMaganhangzoString = adatok[7];
+            this.tippekMaganhangzo = adatok[8];
+            this.tippekMassalhangzo = adatok[9];
+            this.titkosMondas = adatok[10].ToCharArray();
+        }
+        public void MentesLetrehozasa(string fileNev) 
+        {
+            string pontok = "";
+            for (int i = 0; i < this.jatekosok.Length; i++)
+            {
+                pontok += this.jatekosok[i].Pontok.ToString() + " ";
+            }
+            string[] adatok = new string[]
+            {
+                this.jatekosKore.ToString(),
+                $"{this.jatekosok[0].Nev} {this.jatekosok[0].Pontok} {this.jatekosok[0].Talalat} {this.jatekosok[0].JatekosE}",
+                $"{this.jatekosok[1].Nev} {this.jatekosok[1].Pontok} {this.jatekosok[1].Talalat} {this.jatekosok[1].JatekosE}",
+                $"{this.jatekosok[2].Nev} {this.jatekosok[2].Pontok} {this.jatekosok[2].Talalat} {this.jatekosok[2].JatekosE}",
+                this.jatekosokSzama.ToString(),
+                this.korSzama.ToString(),
+                this.segitsegMassalhangzoString,
+                this.segitsegMaganhangzoString,
+                this.tippekMaganhangzo,
+                this.tippekMassalhangzo,
+                new string(this.titkosMondas)
+        };
+            File.WriteAllLines($"{fileNev}.mentes", adatok);
         }
         public int JatekosKore
         {
@@ -120,7 +144,7 @@ namespace Szerencsekerek
             for (int i = 0; i < mondas.Length; i++)
             {
                 if (mondas[i] == karakter) titkosMondas[index++] = karakter;
-                else if (tippekMassalhangzo.Contains(mondas[i])) titkosMondas[index] = mondas[index++];
+                else if (tippekMassalhangzo.Contains(mondas[i].ToString())) titkosMondas[index] = mondas[index++];
                 else if (mondas[i] != ' ') titkosMondas[index++] = '_';
                 else if (mondas[i] == ' ') titkosMondas[index++] = ' ';
             }
@@ -176,11 +200,11 @@ namespace Szerencsekerek
         }
         public static bool MassalhangzoE(char karakter)
         {
-            return "mnjlrbdgzvptkcsfh".Contains(karakter);
+            return "mnjlrbdgzvptkcsfh".Contains(karakter.ToString());
         }
         public static bool MaganhangzoE(char karakter)
         {
-            return "öüóuioőúűaéáí".Contains(karakter);
+            return "öüóuioőúűaéáí".Contains(karakter.ToString());
         }
         public bool Rakerdez(string proba)
         {
@@ -237,38 +261,10 @@ namespace Szerencsekerek
             Console.ReadLine();
             Environment.Exit(0);
         }
-        public void MentesLetrehozasa(string fileNev) 
-        {
-            string titkosMondasString = "";
-            for (int i = 0; i < this.titkosMondas.Length; i++)
-            {
-                titkosMondasString += titkosMondas[i];
-            }
-            string pontok = "";
-            for (int i = 0; i < this.jatekosok.Length; i++)
-            {
-                pontok += this.jatekosok[i].Pontok.ToString() + " ";
-            }
-            string[] adatok = new string[]
-            {
-                this.mondas,
-                titkosMondasString,
-                this.jatekosokSzama.ToString(),
-                this.jatekosKore.ToString(),
-                this.korSzama.ToString(),
-                this.tippekMassalhangzo,
-                this.tippekMaganhangzo,
-                $"{this.jatekosok[0].Nev} {this.jatekosok[0].Pontok} {this.jatekosok[0].Talalat} {this.jatekosok[0].JatekosE}",
-                $"{this.jatekosok[1].Nev} {this.jatekosok[1].Pontok} {this.jatekosok[1].Talalat} {this.jatekosok[1].JatekosE}",
-                $"{this.jatekosok[2].Nev} {this.jatekosok[2].Pontok} {this.jatekosok[2].Talalat} {this.jatekosok[2].JatekosE}"
-
-        };
-            File.WriteAllLines($"{fileNev}.mentes", adatok);
-        }
         public int TippMassalhangzo(char karakter) 
         {
             if (!MassalhangzoE(karakter)) return 2;
-            else if (!tippekMassalhangzo.Contains(karakter) && mondas.Contains(karakter))
+            else if (!tippekMassalhangzo.Contains(karakter.ToString()) && mondas.Contains(karakter.ToString()))
             {
                 tippekMassalhangzo += karakter;
                 segitsegMassalhangzoString += karakter + " ";
@@ -279,7 +275,7 @@ namespace Szerencsekerek
             }
             else
             {
-                segitsegMassalhangzoString += karakter + " ";
+                segitsegMassalhangzoString += karakter+ " ";
                 if (jatekosKore == 2)
                 {
                     jatekosKore = 0;
@@ -296,7 +292,7 @@ namespace Szerencsekerek
                 return 2;
             if (this.jatekosok[jatekosKore].Pontok < ar)
                 return 1;
-            if (!tippekMaganhangzo.Contains(karakter) && this.mondas.Contains(karakter))
+            if (!tippekMaganhangzo.Contains(karakter.ToString()) && this.mondas.Contains(karakter.ToString()))
             {
                 this.tippekMaganhangzo += karakter;
                 this.segitsegMaganhangzoString += karakter + " ";
