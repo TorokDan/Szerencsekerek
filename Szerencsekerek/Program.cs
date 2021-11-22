@@ -102,7 +102,7 @@ namespace Szerencsekerek
                     Console.WriteLine("2. Nevek beállítása");
                     Console.WriteLine("3. Mássalhangzok mutatása: \t {0}", jatek.SegitsegMassalhangzo == true ? "Be" : "Ki");
                     Console.WriteLine("4. Magánhangzók mutatása: \t {0}", jatek.SegitsegMaganhangzo == true ? "Be" : "Ki");
-                    Console.WriteLine("5. Visza");
+                    Console.WriteLine("5. Játék kezdése");
                     be = Console.ReadLine();
                     if (be == 1.ToString()) // Játékosok száma
                         JatekosokSzamaBeker(jatek);
@@ -125,7 +125,7 @@ namespace Szerencsekerek
                                     if (i < jatek.Jatekosok.Length)
                                         Console.WriteLine("{0}. {1} : {2}", i + 1, jatek.Jatekosok[i].JatekosE == true ? "Jatékos" : "Gép", jatek.Jatekosok[i].Nev);
                                     if (i == jatek.Jatekosok.Length)
-                                        Console.WriteLine($"{i + 1}. Kezdés");
+                                        Console.WriteLine($"{i + 1}. Vissza");
                                 }
                                 valtoztatniValoJatekos = Console.ReadLine();
                                 for (int i = 0; i < jatek.Jatekosok.Length; i++)
@@ -293,7 +293,7 @@ namespace Szerencsekerek
                 int valasz = 1;
                 int talan = rnd.Next(1, 10);
                 char valasztott = ' ';
-                if (jatek.Jatekosok[jatek.JatekosKore].Pontok < jatek.PontHatar || (talan < 7 && jatek.PontHatar < jatek.Jatekosok[jatek.JatekosKore].Pontok))
+                if (jatek.Jatekosok[jatek.JatekosKore].Pontok < jatek.PontHatar && (talan < 7 && jatek.PontHatar < jatek.Jatekosok[jatek.JatekosKore].Pontok))
                 {
                     valasztott = massalhangzok[rnd.Next(0, massalhangzok.Length)];
                     valasz = jatek.TippMassalhangzo(valasztott);
