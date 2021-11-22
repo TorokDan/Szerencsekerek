@@ -24,6 +24,15 @@ namespace Szerencsekerek
         private bool segitsegMaganhangzo = false;
         private string segitsegMassalhangzoString = "Eddigi tippek :";
         private string segitsegMaganhangzoString = "Eddigi tippek :";
+        private int pontHatar = 3000;
+
+        public int PontHatar
+        {
+            get
+            {
+                return pontHatar;
+            }
+        }
         public string SegitsegMassalhangzoString
         {
             get { return segitsegMassalhangzoString; }
@@ -287,10 +296,9 @@ namespace Szerencsekerek
         }
         public int MaganhangzoVetel(char karakter)
         {
-            int ar = 3000;
             if (!MaganhangzoE(karakter))
                 return 2;
-            if (this.jatekosok[jatekosKore].Pontok < ar)
+            if (this.jatekosok[jatekosKore].Pontok <this.pontHatar)
                 return 1;
             if (!tippekMaganhangzo.Contains(karakter.ToString()) && this.mondas.Contains(karakter.ToString()))
             {
@@ -298,13 +306,13 @@ namespace Szerencsekerek
                 this.segitsegMaganhangzoString += karakter + " ";
                 TitkosMondas(karakter);
                 this.jatekosok[jatekosKore].Talalat += 1;
-                this.jatekosok[jatekosKore].Pontok -= ar;
+                this.jatekosok[jatekosKore].Pontok -= this.pontHatar;
                 return 0;
             }
             else
             {
                 segitsegMaganhangzoString += karakter + " ";
-                this.jatekosok[jatekosKore].Pontok -= ar;
+                this.jatekosok[jatekosKore].Pontok -= this.pontHatar;
                 if (jatekosKore == 2)
                 {
                     jatekosKore = 0;

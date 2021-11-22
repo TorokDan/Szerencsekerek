@@ -125,7 +125,7 @@ namespace Szerencsekerek
                                     if (i < jatek.Jatekosok.Length)
                                         Console.WriteLine("{0}. {1} : {2}", i + 1, jatek.Jatekosok[i].JatekosE == true ? "Jatékos" : "Gép", jatek.Jatekosok[i].Nev);
                                     if (i == jatek.Jatekosok.Length)
-                                        Console.WriteLine($"{i + 1}. Vissza");
+                                        Console.WriteLine($"{i + 1}. Kezdés");
                                 }
                                 valtoztatniValoJatekos = Console.ReadLine();
                                 for (int i = 0; i < jatek.Jatekosok.Length; i++)
@@ -142,7 +142,6 @@ namespace Szerencsekerek
                     else if (be == 3.ToString()) jatek.SegitsegMassalhangzo = jatek.SegitsegMassalhangzo == true ? false : true;
                     else if (be == 4.ToString()) jatek.SegitsegMaganhangzo = jatek.SegitsegMaganhangzo == true ? false : true;
                 }
-                jatek = Menu();
             }
             return jatek;
         }
@@ -285,7 +284,6 @@ namespace Szerencsekerek
             if (jatek.Jatekosok[jatek.JatekosKore].JatekosE == false)
             {
                 //string jelenlegiBot = jatek.Jatekosok[jatek.JatekosKore].Nev;
-                int ar = 3000;
                 Console.Clear();
                 Console.WriteLine($"{jatek.KorSzama + 1}. kör: {jatek.Jatekosok[jatek.JatekosKore].Nev} jön");
                 Console.WriteLine(jatek.ToString());
@@ -295,7 +293,7 @@ namespace Szerencsekerek
                 int valasz = 1;
                 int talan = rnd.Next(1, 10);
                 char valasztott = ' ';
-                if (jatek.Jatekosok[jatek.JatekosKore].Pontok < ar || (talan < 7 && ar < jatek.Jatekosok[jatek.JatekosKore].Pontok))
+                if (jatek.Jatekosok[jatek.JatekosKore].Pontok < jatek.PontHatar || (talan < 7 && jatek.PontHatar < jatek.Jatekosok[jatek.JatekosKore].Pontok))
                 {
                     valasztott = massalhangzok[rnd.Next(0, massalhangzok.Length)];
                     valasz = jatek.TippMassalhangzo(valasztott);
