@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Szerencsekerek
 {
@@ -94,9 +91,10 @@ namespace Szerencsekerek
             else if (valasztott == 3.ToString()) // beállítások
             {
                 string be = " ";
-                while ( be != 5.ToString())
+                while ( be != 5.ToString() || jatek.JatekosokSzama == 4)
                 {
                     Console.Clear();
+                    Console.WriteLine(jatek.JatekosokSzama);
                     Console.WriteLine("Beállítások");
                     Console.WriteLine("1. Játékosok száma \t {0}", jatek.JatekosokSzama == 4 ? "nincs állítva" : jatek.JatekosokSzama.ToString());
                     Console.WriteLine("2. Nevek beállítása");
@@ -132,7 +130,7 @@ namespace Szerencsekerek
                                 {
                                     if (valtoztatniValoJatekos == (i+1).ToString())
                                     {
-                                        Console.WriteLine($"Kérlek add meg a(z) {valtoztatniValoJatekos}. új nevét");
+                                        Console.WriteLine($"Kérlek add meg a(z) {valtoztatniValoJatekos}. játékos új nevét");
                                         jatek.Jatekosok[int.Parse(valtoztatniValoJatekos) - 1].Nev = Console.ReadLine();
                                     }
                                 }
@@ -141,6 +139,11 @@ namespace Szerencsekerek
                     }
                     else if (be == 3.ToString()) jatek.SegitsegMassalhangzo = jatek.SegitsegMassalhangzo == true ? false : true;
                     else if (be == 4.ToString()) jatek.SegitsegMaganhangzo = jatek.SegitsegMaganhangzo == true ? false : true;
+                    if (jatek.JatekosokSzama == 4 && be == 5.ToString())
+                    {
+                        Console.WriteLine("Kérlek állítsd be, hogy hány játékos legyen");
+                        System.Threading.Thread.Sleep(1500);
+                    }
                 }
             }
             return jatek;
@@ -241,17 +244,24 @@ namespace Szerencsekerek
                     else if (dontes == 2.ToString()) // Magánhangzó
                     {
                         int valasz = 3;
-                        while (valasz != 0 && valasz != 1 && valasz != 2)
+                        if (jatek.Jatekosok[jatek.JatekosKore].Pontok < jatek.PontHatar) 
                         {
-                            char tipp = MaganhangzoBeker(jatek);
-                            valasz = jatek.MaganhangzoVetel(tipp);
-                            if (valasz == 1)
-                                Console.WriteLine("Nincs elég pénzed magánhangzót venni");
-                            else if (valasz == 2)
-                                Console.WriteLine("Sajnos nem talált");
-                            else if (valasz == 0)
-                                Console.WriteLine("Gratulálok");
-                            System.Threading.Thread.Sleep(1500);
+                            Console.WriteLine("Nincs elég pénzed!");
+                        }
+                        else
+                        {
+                            while (valasz != 0 && valasz != 1 && valasz != 2)
+                            {
+                                char tipp = MaganhangzoBeker(jatek);
+                                valasz = jatek.MaganhangzoVetel(tipp);
+                                if (valasz == 1)
+                                    Console.WriteLine("Nincs elég pénzed magánhangzót venni");
+                                else if (valasz == 2)
+                                    Console.WriteLine("Sajnos nem talált");
+                                else if (valasz == 0)
+                                    Console.WriteLine("Gratulálok");
+                                System.Threading.Thread.Sleep(1500);
+                            }
                         }
                     }
                     else if (dontes == 3.ToString()) // rákérdez
