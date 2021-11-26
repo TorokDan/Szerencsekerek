@@ -1,71 +1,33 @@
 ﻿namespace Szerencsekerek
 {
+    enum JatekosFajta { jatekos, gep}
     class Jatekos
     {
-        private string nev = "";
-        private int pontok = 0;
-        private int talalat = 0;
-        private bool jatekosE;
+        public string Nev { get; set; }
+        public int Pontok { get; private set; }
+        public int Talalat { get; private set; }
+        public JatekosFajta Tipus { get; private set; }
 
-        public Jatekos()
+        public Jatekos() :this("", 0, 0, JatekosFajta.gep) { }
+        public Jatekos(string nev, JatekosFajta jatekosTipus) :this(nev, 0, 0, jatekosTipus) { }
+        public Jatekos(string nev, int pontok, int talalat, JatekosFajta jatekosTipus)
         {
-
-        }
-        public Jatekos(string nev, int pontok, int talalat, bool jatekosE)
-        {
-            this.nev = nev;
-            this.pontok = pontok;
-            this.talalat = talalat;
-            this.jatekosE = jatekosE;
-        }
-
-        public string Nev
-        {
-            get
-            {
-                return nev;
-            }
-            set 
-            {
-                nev = value;
-            }
-        }
-        public bool JatekosE
-        {
-            get
-            {
-                return this.jatekosE;
-            }
-            set
-            {
-                this.jatekosE = value;
-            }
-        }
-        public int Pontok
-        {
-            get
-            {
-                return pontok;
-            }
-            set
-            {
-                this.pontok = value;
-            }
+            this.Nev = nev;
+            this.Pontok = pontok;
+            this.Talalat = talalat;
+            this.Tipus = jatekosTipus;
         }
         public void PontAdas(int pont)
         {
-            pontok += this.talalat * pont;
+            Pontok += this.Talalat * pont;
         }
-        public int Talalat
+        public void PontLevonas(int pont)
         {
-            get
-            {
-                return this.talalat;
-            }
-            set
-            {
-                this.talalat = value;
-            }
+            Pontok -= pont;
+        }
+        public void Eltalált()
+        {
+            this.Talalat++;
         }
     }
 }

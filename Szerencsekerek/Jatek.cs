@@ -22,6 +22,38 @@ namespace Szerencsekerek
         private string segitsegMaganhangzoString = "Eddigi tippek :";
         private int pontHatar = 3000;
 
+        public Jatek()
+        {
+            string file = "Mondasok.txt";
+            string[] sorok = new string[0];
+            if (File.Exists(file))
+                sorok = File.ReadAllLines(file);
+            else
+            {
+                Console.WriteLine("Mondasok.txt nem található, kérlek tetdd a megfelelő helyre!");
+                System.Threading.Thread.Sleep(2000);
+                Environment.Exit(0);
+            }
+            mondasok = new string[sorok.Length];
+            mondas = sorok[rnd.Next(0, mondasok.Length)];
+            TitkosMondas();
+        }
+        public Jatek(string fileNev)
+        {
+            string[] adatok = File.ReadAllLines(fileNev);
+            this.jatekosKore = int.Parse(adatok[0]);
+            this.jatekosok[0] = new Jatekos(adatok[1].Split(' ')[0], int.Parse(adatok[1].Split(' ')[1]), int.Parse(adatok[1].Split(' ')[2]), (JatekosFajta)int.Parse(adatok[1].Split(' ')[3]));
+            this.jatekosok[1] = new Jatekos(adatok[2].Split(' ')[0], int.Parse(adatok[2].Split(' ')[1]), int.Parse(adatok[2].Split(' ')[2]), (JatekosFajta)int.Parse(adatok[2].Split(' ')[3]));
+            this.jatekosok[2] = new Jatekos(adatok[3].Split(' ')[0], int.Parse(adatok[3].Split(' ')[1]), int.Parse(adatok[3].Split(' ')[2]), (JatekosFajta)int.Parse(adatok[3].Split(' ')[3]));
+            this.jatekosokSzama = int.Parse(adatok[4]);
+            this.korSzama = int.Parse(adatok[5]);
+            this.segitsegMassalhangzoString = adatok[6];
+            this.segitsegMaganhangzoString = adatok[7];
+            this.tippekMaganhangzo = adatok[8];
+            this.tippekMassalhangzo = adatok[9];
+            this.titkosMondas = adatok[10].ToCharArray();
+        }
+
         public int PontHatar
         {
             get
@@ -68,90 +100,11 @@ namespace Szerencsekerek
                 return korSzama;
             }
         }
-        public void UjKor()
-        {
-            this.korSzama++;
-        }
-        public Jatek()
-        {
-            string file = "Mondasok.txt";
-            string[] sorok = new string[0];
-            if (File.Exists(file))
-                sorok = File.ReadAllLines(file);
-            else
-            {
-                Console.WriteLine("Mondasok.txt nem található, kérlek tetdd a megfelelő helyre!");
-                System.Threading.Thread.Sleep(2000);
-                Environment.Exit(0);
-            }
-            mondasok = new string[sorok.Length];
-            mondas = sorok[rnd.Next(0, mondasok.Length)];
-            TitkosMondas();
-        }
-        public Jatek(string fileNev)
-        {
-            string[] adatok = File.ReadAllLines(fileNev);
-            this.jatekosKore = int.Parse(adatok[0]);
-            this.jatekosok[0] = new Jatekos(adatok[1].Split(' ')[0], int.Parse(adatok[1].Split(' ')[1]), int.Parse(adatok[1].Split(' ')[2]), bool.Parse(adatok[1].Split(' ')[3]));
-            this.jatekosok[1] = new Jatekos(adatok[2].Split(' ')[0], int.Parse(adatok[2].Split(' ')[1]), int.Parse(adatok[2].Split(' ')[2]), bool.Parse(adatok[2].Split(' ')[3]));
-            this.jatekosok[2] = new Jatekos(adatok[3].Split(' ')[0], int.Parse(adatok[3].Split(' ')[1]), int.Parse(adatok[3].Split(' ')[2]), bool.Parse(adatok[3].Split(' ')[3]));
-            this.jatekosokSzama = int.Parse(adatok[4]);
-            this.korSzama = int.Parse(adatok[5]);
-            this.segitsegMassalhangzoString = adatok[6];
-            this.segitsegMaganhangzoString = adatok[7];
-            this.tippekMaganhangzo = adatok[8];
-            this.tippekMassalhangzo = adatok[9];
-            this.titkosMondas = adatok[10].ToCharArray();
-        }
-        public void MentesLetrehozasa(string fileNev) 
-        {
-            string pontok = "";
-            for (int i = 0; i < this.jatekosok.Length; i++)
-            {
-                pontok += this.jatekosok[i].Pontok.ToString() + " ";
-            }
-            string[] adatok = new string[]
-            {
-                this.jatekosKore.ToString(),
-                $"{this.jatekosok[0].Nev} {this.jatekosok[0].Pontok} {this.jatekosok[0].Talalat} {this.jatekosok[0].JatekosE}",
-                $"{this.jatekosok[1].Nev} {this.jatekosok[1].Pontok} {this.jatekosok[1].Talalat} {this.jatekosok[1].JatekosE}",
-                $"{this.jatekosok[2].Nev} {this.jatekosok[2].Pontok} {this.jatekosok[2].Talalat} {this.jatekosok[2].JatekosE}",
-                this.jatekosokSzama.ToString(),
-                this.korSzama.ToString(),
-                this.segitsegMassalhangzoString,
-                this.segitsegMaganhangzoString,
-                this.tippekMaganhangzo,
-                this.tippekMassalhangzo,
-                new string(this.titkosMondas)
-        };
-            File.WriteAllLines($"{fileNev}.mentes", adatok);
-        }
         public int JatekosKore
         {
             get
             {
                 return jatekosKore;
-            }
-        }
-        private void TitkosMondas()
-        {
-            titkosMondas = new char[mondas.Length];
-            int index = 0;
-            for (int i = 0; i < mondas.Length; i++)
-            {
-                if (mondas[i] != ' ') titkosMondas[index++] = '_';
-                else if (mondas[i] == ' ') titkosMondas[index++] = ' ';
-            }
-        }
-        private void TitkosMondas(char karakter)
-        {
-            int index = 0;
-            for (int i = 0; i < mondas.Length; i++)
-            {
-                if (mondas[i] == karakter) titkosMondas[index++] = karakter;
-                else if (tippekMassalhangzo.Contains(mondas[i].ToString())) titkosMondas[index] = mondas[index++];
-                else if (mondas[i] != ' ') titkosMondas[index++] = '_';
-                else if (mondas[i] == ' ') titkosMondas[index++] = ' ';
             }
         }
         public Jatekos[] Jatekosok
@@ -176,22 +129,64 @@ namespace Szerencsekerek
                 int szamlaloGep = 1;
                 for (int i = 0; i < jatekosok.Length; i++)
                 {
-                    jatekosok[i] = new Jatekos();
                     if (i < this.jatekosokSzama)
-                    {
-                        jatekosok[i].Nev = $"Játékos{i + 1}";
-                        jatekosok[i].JatekosE = true;
-                    }
+                        jatekosok[i] = new Jatekos($"Játékos{i + 1}", JatekosFajta.jatekos);
                     else
-                    {
-                        jatekosok[i].Nev = $"Gép{szamlaloGep++}";
-                        jatekosok[i].JatekosE = false;
-                    }
+                        jatekosok[i] = new Jatekos($"Gép{szamlaloGep++}", JatekosFajta.gep);
                 }
             }
             get
             {
                 return jatekosokSzama;
+            }
+        }
+
+        public void MentesLetrehozasa(string fileNev) 
+        {
+            string pontok = "";
+            for (int i = 0; i < this.jatekosok.Length; i++)
+            {
+                pontok += this.jatekosok[i].Pontok.ToString() + " ";
+            }
+            string[] adatok = new string[]
+            {
+                this.jatekosKore.ToString(),
+                $"{this.jatekosok[0].Nev} {this.jatekosok[0].Pontok} {this.jatekosok[0].Talalat} {(int)this.jatekosok[0].Tipus}",
+                $"{this.jatekosok[1].Nev} {this.jatekosok[1].Pontok} {this.jatekosok[1].Talalat} {(int)this.jatekosok[1].Tipus}",
+                $"{this.jatekosok[2].Nev} {this.jatekosok[2].Pontok} {this.jatekosok[2].Talalat} {(int)this.jatekosok[2].Tipus}",
+                this.jatekosokSzama.ToString(),
+                this.korSzama.ToString(),
+                this.segitsegMassalhangzoString,
+                this.segitsegMaganhangzoString,
+                this.tippekMaganhangzo,
+                this.tippekMassalhangzo,
+                new string(this.titkosMondas)
+        };
+            File.WriteAllLines($"{fileNev}.mentes", adatok);
+        }
+        public void UjKor()
+        {
+            this.korSzama++;
+        }
+        private void TitkosMondas()
+        {
+            titkosMondas = new char[mondas.Length];
+            int index = 0;
+            for (int i = 0; i < mondas.Length; i++)
+            {
+                if (mondas[i] != ' ') titkosMondas[index++] = '_';
+                else if (mondas[i] == ' ') titkosMondas[index++] = ' ';
+            }
+        }
+        private void TitkosMondas(char karakter)
+        {
+            int index = 0;
+            for (int i = 0; i < mondas.Length; i++)
+            {
+                if (mondas[i] == karakter) titkosMondas[index++] = karakter;
+                else if (tippekMassalhangzo.Contains(mondas[i].ToString())) titkosMondas[index] = mondas[index++];
+                else if (mondas[i] != ' ') titkosMondas[index++] = '_';
+                else if (mondas[i] == ' ') titkosMondas[index++] = ' ';
             }
         }
         public override string ToString()
@@ -268,13 +263,14 @@ namespace Szerencsekerek
         }
         public int TippMassalhangzo(char karakter) 
         {
-            if (!MassalhangzoE(karakter)) return 2;
+            if (!MassalhangzoE(karakter)) 
+                return 2;
             else if (!tippekMassalhangzo.Contains(karakter.ToString()) && mondas.Contains(karakter.ToString()))
             {
                 tippekMassalhangzo += karakter;
                 segitsegMassalhangzoString += karakter + " ";
                 TitkosMondas(karakter);
-                this.jatekosok[jatekosKore].Talalat += 1;
+                this.jatekosok[jatekosKore].Eltalált();
                 this.jatekosok[jatekosKore].PontAdas(this.rnd.Next(1000, 20001));
                 return 0;
             }
@@ -286,7 +282,8 @@ namespace Szerencsekerek
                     jatekosKore = 0;
                     korSzama++;
                 }
-                else if (jatekosKore < 2) jatekosKore++;
+                else if (jatekosKore < 2) 
+                    jatekosKore++;
                 return 1;
             }
         }
@@ -294,21 +291,19 @@ namespace Szerencsekerek
         {
             if (!MaganhangzoE(karakter))
                 return 2;
-            if (this.jatekosok[jatekosKore].Pontok <this.pontHatar)
-                return 1;
             if (!tippekMaganhangzo.Contains(karakter.ToString()) && this.mondas.Contains(karakter.ToString()))
             {
                 this.tippekMaganhangzo += karakter;
                 this.segitsegMaganhangzoString += karakter + " ";
                 TitkosMondas(karakter);
-                this.jatekosok[jatekosKore].Talalat += 1;
-                this.jatekosok[jatekosKore].Pontok -= this.pontHatar;
+                this.jatekosok[jatekosKore].Eltalált();
+                this.jatekosok[jatekosKore].PontLevonas(this.pontHatar);
                 return 0;
             }
             else
             {
                 segitsegMaganhangzoString += karakter + " ";
-                this.jatekosok[jatekosKore].Pontok -= this.pontHatar;
+                this.jatekosok[jatekosKore].PontLevonas(this.pontHatar);
                 if (jatekosKore == 2)
                 {
                     jatekosKore = 0;
@@ -316,7 +311,7 @@ namespace Szerencsekerek
                 }
                 else if (jatekosKore < 2)
                     jatekosKore++;
-                return 2;
+                return 1;
             }
         }
     }

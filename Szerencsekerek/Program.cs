@@ -8,14 +8,8 @@ namespace Szerencsekerek
     {
         static void Main(string[] args)
         {
-            //Console.WriteLine(Console.WindowHeight);
-            //Console.WriteLine(Console.WindowWidth);
-            //Console.ReadLine();
-            //Console.WindowHeight = 20;
-            //Console.WindowWidth = 90;
             Console.OutputEncoding = Encoding.Unicode;
             Console.InputEncoding = Encoding.Unicode;
-            //Jatek jatek = new Jatek();
             Jatek jatek = Menu();
             while (jatek.JatekVege == false && jatek.KorSzama < 3)
             {
@@ -71,6 +65,7 @@ namespace Szerencsekerek
                         {
                             jatek = new Jatek(fileName[i - 1]);
                             valtozas = true;
+                            Console.WriteLine("Mentés létrehozva");
                             System.Threading.Thread.Sleep(1000);
                         }
                     }
@@ -121,7 +116,7 @@ namespace Szerencsekerek
                                 for (int i = 0; i <= jatek.Jatekosok.Length; i++)
                                 {
                                     if (i < jatek.Jatekosok.Length)
-                                        Console.WriteLine("{0}. {1} : {2}", i + 1, jatek.Jatekosok[i].JatekosE == true ? "Jatékos" : "Gép", jatek.Jatekosok[i].Nev);
+                                        Console.WriteLine("{0}. {1} : {2}", i + 1, jatek.Jatekosok[i].Tipus == JatekosFajta.jatekos ? "Jatékos" : "Gép", jatek.Jatekosok[i].Nev);
                                     if (i == jatek.Jatekosok.Length)
                                         Console.WriteLine($"{i + 1}. Vissza");
                                 }
@@ -179,7 +174,7 @@ namespace Szerencsekerek
             while (!Jatek.MassalhangzoE(tipp))
             {
                 Console.WriteLine($"\n{jatek.Jatekosok[jatek.JatekosKore].Nev} tippeljen egy mássalhangzót");
-                string tippStr = Console.ReadLine();
+                string tippStr = Console.ReadLine().ToLower();
                 if (tippStr.Length == 1)
                     tipp = char.Parse(tippStr);
                 if (!Jatek.MassalhangzoE(tipp))
@@ -196,7 +191,7 @@ namespace Szerencsekerek
             while (!Jatek.MaganhangzoE(tipp))
             {
                 Console.WriteLine($"\n{jatek.Jatekosok[jatek.JatekosKore].Nev} tippeljen egy magánhangzót");
-                string tippStr = Console.ReadLine();
+                string tippStr = Console.ReadLine().ToLower();
                 if (tippStr.Length == 1)
                     tipp = char.Parse(tippStr);
                 if (!Jatek.MaganhangzoE(tipp))
@@ -211,7 +206,7 @@ namespace Szerencsekerek
         {
             Random rnd = new Random();
             Console.WriteLine();
-            if (jatek.Jatekosok[jatek.JatekosKore].JatekosE == true)
+            if (jatek.Jatekosok[jatek.JatekosKore].Tipus == JatekosFajta.jatekos)
             {
                 string dontes = " ";
                 while (dontes != 1.ToString() && dontes != 2.ToString() && dontes != 3.ToString())
@@ -291,30 +286,33 @@ namespace Szerencsekerek
                     System.Threading.Thread.Sleep(1500);
                 }
             }
-            if (jatek.Jatekosok[jatek.JatekosKore].JatekosE == false)
+            if (jatek.Jatekosok[jatek.JatekosKore].Tipus == JatekosFajta.gep)
             {
-                //string jelenlegiBot = jatek.Jatekosok[jatek.JatekosKore].Nev;
                 Console.Clear();
                 Console.WriteLine($"{jatek.KorSzama + 1}. kör: {jatek.Jatekosok[jatek.JatekosKore].Nev} jön");
                 Console.WriteLine(jatek.ToString());
                 Console.WriteLine("\n" + jatek.TitkosMondasString());
+                string jatekosNeve = jatek.Jatekosok[jatek.JatekosKore].Nev;
                 string massalhangzok = "mnjlrbdgzvptkcsfh";
                 string maganhangzok = "öüóuioőúűaéáí";
                 int valasz = 1;
-                int talan = rnd.Next(1, 10);
+                int talan = rnd.Next(1, 4);
                 char valasztott = ' ';
-                if (jatek.Jatekosok[jatek.JatekosKore].Pontok < jatek.PontHatar && (talan < 7 && jatek.PontHatar < jatek.Jatekosok[jatek.JatekosKore].Pontok))
+                if (jatek.Jatekosok[jatek.JatekosKore].Pontok < jatek.PontHatar &&
+                    talan == 3 &&
+                    jatek.PontHatar < jatek.Jatekosok[jatek.JatekosKore].Pontok)
+                {
+                    Console.WriteLine("asdfasdf");
+                    valasztott = maganhangzok[rnd.Next(0, maganhangzok.Length)];
+                    valasz = jatek.MaganhangzoVetel(valasztott);
+                }
+                else/*(jatek.Jatekosok[jatek.JatekosKore].Pontok < jatek.PontHatar)*/
                 {
                     valasztott = massalhangzok[rnd.Next(0, massalhangzok.Length)];
                     valasz = jatek.TippMassalhangzo(valasztott);
                 }
-                else
-                {
-                    valasztott = maganhangzok[rnd.Next(0, maganhangzok.Length)];
-                    valasz = jatek.MaganhangzoVetel(valasztott);
-                }
-                if (valasz == 1) Console.WriteLine($"{jatek.Jatekosok[jatek.JatekosKore].Nev} rosszat tippelt: {valasztott}");
-                if (valasz == 0) Console.WriteLine($"{jatek.Jatekosok[jatek.JatekosKore].Nev} tippje helyes volt: {valasztott}");
+                if (valasz == 1) Console.WriteLine($"{jatekosNeve} rosszat tippelt: {valasztott}");
+                if (valasz == 0) Console.WriteLine($"{jatekosNeve} tippje helyes volt: {valasztott}");
                 System.Threading.Thread.Sleep(2000);
             }
         }
