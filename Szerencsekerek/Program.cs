@@ -65,8 +65,7 @@ namespace Szerencsekerek
                         {
                             jatek = new Jatek(fileName[i - 1]);
                             valtozas = true;
-                            Console.WriteLine("Mentés létrehozva");
-                            System.Threading.Thread.Sleep(1000);
+                            System.Threading.Thread.Sleep(500);
                         }
                     }
                     Console.WriteLine(jatek.Jatekosok[0].Nev);
@@ -306,14 +305,14 @@ namespace Szerencsekerek
                     valasztott = maganhangzok[rnd.Next(0, maganhangzok.Length)];
                     valasz = jatek.MaganhangzoVetel(valasztott);
                 }
-                else/*(jatek.Jatekosok[jatek.JatekosKore].Pontok < jatek.PontHatar)*/
+                else
                 {
                     valasztott = massalhangzok[rnd.Next(0, massalhangzok.Length)];
                     valasz = jatek.TippMassalhangzo(valasztott);
                 }
                 if (valasz == 1) Console.WriteLine($"{jatekosNeve} rosszat tippelt: {valasztott}");
                 if (valasz == 0) Console.WriteLine($"{jatekosNeve} tippje helyes volt: {valasztott}");
-                System.Threading.Thread.Sleep(2000);
+                System.Threading.Thread.Sleep(1500);
             }
         }
     }
